@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: /manual/2.1/
-Disallow: /manual/current/phpbu-manual.html
