@@ -1,0 +1,205 @@
+.btn-primary {
+	background-color: #fc9809;
+	border-color: #fff;
+}
+
+.btn-primary:hover {
+	background-color: #ff7709;
+	border-color: #fff;
+}
+
+.navbar {
+	margin-bottom: 0;
+}
+
+.em {
+	color: #429a6c;
+}
+
+.jumbotron {
+	color: #fff;
+	background-color: #429a6c;
+	padding: 0;
+	min-height: 250px;
+}
+
+.jumbotron .container{
+    padding-top: 70px;
+}
+
+.carousel {
+	height: 250px;
+	margin-bottom: 40px;
+}
+
+.carousel-caption {
+	z-index: 10;
+}
+
+.carousel-caption h1 {
+	display: block;
+	margin-top: 0;
+	font-size: 1.6em;
+}
+
+@media ( min-width : 1300px) {
+	.carousel-caption h1 {
+		font-size: 2.2em;
+	}
+}
+
+.carousel-caption span.pq-open {
+	width: 50px;
+	height: 100px;
+	display: block;
+	font-size: 80px;
+	line-height: 20px;
+	position: absolute;
+	top: 10px;
+	left: -30p;
+}
+
+.carousel-caption span.pq-close {
+	width: 50px;
+	height: 100px;
+	display: block;
+	font-size: 80px;
+	line-height: 20px;
+	position: absolute;
+	bottom: -100px;
+	right: -30px;
+}
+
+.carousel .item {
+	height: 250px;
+	background-color: #429a6c;
+}
+
+.carousel-control.left {
+	background-image: none;
+}
+
+.carousel-control.right {
+	background-image: none;
+}
+
+.phpbu-docs-sidebar.affix {
+	position: static
+}
+
+@media ( min-width :768px) {
+	.phpbu-docs-sidebar {
+		padding-left: 20px
+	}
+}
+
+.phpbu-docs-sidenav {
+	margin-top: 20px;
+	margin-bottom: 20px
+}
+
+.phpbu-docs-sidebar .nav>li>a {
+	display: block;
+	padding: 4px 20px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #999
+}
+
+.phpbu-docs-sidebar .nav>li>a:hover, .phpbu-docs-sidebar .nav>li>a:focus {
+	padding-left: 19px;
+	color: #429a6c;
+	text-decoration: none;
+	background-color: transparent;
+	border-left: 1px solid #429a6c
+}
+
+.phpbu-docs-sidebar .nav>.active>a, .phpbu-docs-sidebar .nav>.active:hover>a,
+	.phpbu-docs-sidebar .nav>.active:focus>a {
+	padding-left: 18px;
+	font-weight: 700;
+	color: #429a6c;
+	background-color: transparent;
+	border-left: 2px solid #429a6c
+}
+
+.phpbu-docs-sidebar .nav .nav {
+	/*display: none;*/
+	padding-bottom: 10px
+}
+
+.phpbu-docs-sidebar .nav .nav>li>a {
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 30px;
+	font-size: 12px;
+	font-weight: 400
+}
+
+#footer {
+    margin-bottom: 50px;
+}
+
+#footer .copyright {
+    float:left;
+}
+
+#footer .social {
+    float: right;
+}
+
+#footer .social img {
+    position: relative;
+    top: -2px;
+}
+
+#footer .social a {
+    color: #000;
+    text-decoration: none;
+}
+
+#footer .social .twitter {
+    display: block;
+    padding-left: 20px;
+    height: 21px;
+    background: transparent url("/images/twitter.png") no-repeat 0 2px;
+    background-size: 16px 16px;
+}
+
+.phpbu-docs-sidebar .nav .nav>li>a:hover, .phpbu-docs-sidebar .nav .nav>li>a:focus
+	{
+	padding-left: 29px
+}
+
+.phpbu-docs-sidebar .nav .nav>.active>a, .phpbu-docs-sidebar .nav .nav>.active:hover>a,
+	.phpbu-docs-sidebar .nav .nav>.active:focus>a {
+	padding-left: 28px;
+	font-weight: 500
+}
+
+@media ( min-width :992px) {
+	.phpbu-docs-sidebar .nav>.active>ul {
+		display: block
+	}
+	.phpbu-docs-sidebar.affix, .phpbu-docs-sidebar.affix-bottom {
+		width: 213px
+	}
+	.phpbu-docs-sidebar.affix {
+		position: fixed;
+		top: 20px
+	}
+	.phpbu-docs-sidebar.affix-bottom {
+		position: absolute
+	}
+	.phpbu-docs-sidebar.affix-bottom .phpbu-docs-sidenav, .phpbu-docs-sidebar.affix .phpbu-docs-sidenav
+		{
+		margin-top: 0;
+		margin-bottom: 0
+	}
+}
+
+@media ( min-width :1200px) {
+	.phpbu-docs-sidebar.affix-bottom, .bs-docs-sidebar.affix {
+		width: 263px
+	}
+}

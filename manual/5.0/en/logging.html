@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PHPBU Manual &#8211; Chapter 10. Logging</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="http://phpbu.de/manual/current/en/logging.html">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/highlight.min.css" rel="stylesheet">
+  <link href="css/phpbu.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+
+  <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+                data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <svg xmlns="http://www.w3.org/2000/svg"height="25" title="phpbu - php backup utility"
+               viewBox="0 43 140 40">
+            <path d="M31.8 43C31.2 43 30.7 43.2 30.3 43.6 30 44 29.8 44.5 29.8 45.1L29.8 72.4C29.8 72.9
+                  30 73.4 30.3 73.8 30.8 74.2 31.2 74.4 31.8 74.4 32.4 74.4 32.9 74.2 33.3 73.8 33.7
+                  73.4 33.9 72.9 33.9 72.4L33.9 62.7C33.9
+                  61.9 34 61.1 34.3 60.3 34.7 59.6 35.1 58.9 35.7 58.4 36.2 57.8 36.9 57.4 37.6 57.1 38.4
+                  56.7 39.1 56.6 40 56.6 40.8 56.6 41.6 56.7 42.4 57.1 43.1 57.4 43.8 57.8 44.3 58.4
+                  44.9 58.9 45.3 59.6 45.7
+                  60.3 46 61.1 46.2 61.9 46.2 62.7L46.2 72.4C46.2 72.9 46.4 73.4 46.7 73.8 47.2 74.2 47.6
+                  74.4 48.2 74.4 48.8 74.4 49.2 74.2 49.6 73.8 50 73.4 50.2 72.9 50.3 72.4L50.3
+                  62.7C50.3 61.3 50 60 49.4 58.7 48.9 57.5 48.1
+                  56.4 47.2 55.5 46.3 54.5 45.2 53.8 43.9 53.3 42.7 52.7 41.4 52.5 40 52.5 37.6 52.5 35.6
+                  53.1 33.9 54.5L33.9 45.1C33.8 44.5 33.6 44 33.2 43.6 32.8 43.2 32.4
+                  43 31.8 43L31.8 43zM80.6 43C80 43 79.5 43.2 79.1 43.6 78.8 44 78.6 44.5 78.6 45L78.6
+                  63.4C78.6 64.9 78.8 66.2 79.3 67.5L80.3 63.7 82.8 64.8C82.7 64.4 82.7 63.9 82.7 63.4
+                  82.7 62.5 82.8 61.6 83.2 60.8 83.6 59.9 84
+                  59.2 84.7 58.6 85.3 58 86 57.5 86.8 57.1 87.7 56.7 88.6 56.5 89.6 56.5 90.5 56.5 91.4
+                  56.7 92.2 57.1 92.9 57.4 93.4 57.7 93.9 58.1L91.2 59.7 95 61.1 98.9 62.5 99.7 58.4 100.5
+                  54.4 97.7 56C97.6
+                  55.9 97.4 55.8 97.3 55.7 95.2 53.5 92.6 52.4 89.6 52.4
+                  86.9 52.4 84.6 53.3 82.7 54.9L82.7 45.1C82.7 44.5 82.5 44 82.1 43.6 81.7 43.2 81.2 43
+                  80.6 43L80.6 43zM15.7 52.4L15.7 52.4C12.7 52.4 10.1 53.5 7.9 55.6 6.2 57.4 5.2 59.4 4.8
+                  61.8L1.7 61.8 1.7 61.8 1.6 61.8 4.3 64.9
+                  7 68.1 9.7 64.9 12.4 61.8 12.3 61.8 12.4 61.8 9 61.8C9.1 61.4 9.2 61.1 9.3 60.8 9.7
+                  59.9 10.2 59.2 10.8 58.6 11.4 57.9 12.1 57.4 13 57.1
+                  13.8 56.7 14.7 56.5 15.7 56.5 16.6 56.5 17.5 56.7 18.4
+                  57.1 19.2 57.4 19.9 57.9 20.6 58.6 21.2 59.2 21.7 59.9 22 60.8 22.4 61.6 22.6 62.5 22.6
+                  63.4 22.6 64.4 22.4 65.2 22 66.1 21.7 66.9 21.2 67.6 20.6 68.3 19.9 68.9 19.2 69.4 18.4
+                  69.8 17.5 70.1 16.6 70.3 15.7 70.3 14.7 70.3 13.8 70.1 13 69.8 12.1 69.4 11.4 68.9 10.8
+                  68.3 10.3 67.7 9.8 67.1 9.5 66.4L7 69.3 4.7 66.5 4.7
+                  81.8C4.7 82.4 4.9 82.8 5.3 83.2 5.7 83.6 6.1 83.8
+                  6.7 83.8 7.3 83.8 7.8 83.6 8.2 83.2 8.6 82.8 8.8 82.4 8.8 81.8L8.8 72C10.7 73.6 13 74.4
+                  15.7 74.4 17.2 74.4 18.6 74.1 19.9 73.6 21.2 73.1 22.3 72.2 23.4 71.2 25.6 69 26.7 66.5
+                  26.7 63.4 26.7 61.9 26.4 60.5 25.9
+                  59.2 25.3 57.9 24.5 56.7 23.5 55.6 21.3 53.5 18.7 52.4 15.7 52.4zM64.5 52.4C61.5 52.4
+                  58.9 53.5 56.7 55.6 54.6 57.8 53.5 60.4 53.5 63.4L53.5 81.8C53.5 82.4 53.7 82.9 54.1 83.3
+                  54.5 83.7 55 83.8 55.5 83.8 56.1 83.8
+                  56.6 83.7 57 83.3 57.4 82.9 57.6 82.4 57.6 81.8L57.6 72C59.6 73.6 61.9 74.4 64.5 74.4
+                  66 74.4 67.4 74.2 68.7 73.6 70 73.1 71.2 72.3 72.3 71.2 74.4 69.1 75.5 66.5 75.5 63.4
+                  75.5 61.9 75.2 60.5 74.7
+                  59.2 74.1 57.9 73.3 56.7 72.3 55.7 70.1 53.5 67.5 52.4 64.5 52.4L64.5 52.4zM105.8
+                  52.4C105.2 52.4 104.7 52.6 104.3 53 103.9 53.4 103.7 53.9 103.7 54.5L103.7 64.2C103.7
+                  65.6 104 66.9 104.5 68.1 105.1 69.4 105.8 70.5
+                  106.8 71.4 107.7 72.3 108.8 73.1 110 73.6 111.3 74.1 112.6 74.4 114 74.4 115.2 74.4
+                  116.3 74.3 117.3 73.9 118.3 73.6 119.2 73.1 120.1 72.4 120.2 73
+                  120.4 73.4 120.7 73.8 121.1 74.2 121.6 74.4 122.2 74.4 122.8 74.4 123.2 74.2 123.6
+                  73.8 124 73.4 124.2 72.9 124.2 72.4L124.2 54.5C124.2 53.9 124 53.4 123.6 53 123.2 52.6
+                  122.8 52.4 122.2 52.4 121.6 52.4 121.1 52.6
+                  120.7 53 120.3 53.4 120.1 53.9 120.1 54.5L120.1 64.2C120.1 65 120 65.8 119.7 66.6
+                  119.3 67.3 118.9 68 118.3 68.5 117.8 69.1 117.1 69.5 116.4 69.9 115.6 70.2 114.8 70.3
+                  114 70.3 113.1 70.3 112.3
+                  70.2 111.6 69.9 110.8 69.5 110.2 69.1 109.6 68.5
+                  109.1 68 108.6 67.3 108.3 66.6 108 65.8 107.8 65 107.8 64.2L107.8 54.5C107.8 53.9
+                  107.6 53.4 107.2 53 106.8 52.6 106.4 52.4 105.8 52.4L105.8 52.4zM64.5 56.5C65.5 56.5
+                  66.3 56.7 67.2 57.1 68 57.4 68.7 57.9 69.4 58.6
+                  70 59.2 70.5 59.9 70.8 60.8 71.2 61.6 71.4 62.5 71.4 63.4 71.4 64.4 71.2 65.2 70.8
+                  66.1 70.5 66.9 70 67.6 69.4 68.3 68.8 68.9 68 69.4 67.2 69.7 66.4 70.1 65.5 70.3 64.5
+                  70.3 63.5 70.3 62.6 70.1
+                  61.8 69.7 61 69.4 60.2 68.9 59.6 68.3 59 67.7 58.5 66.9 58.1 66.1 57.8 65.2 57.6
+                  64.3 57.6 63.4 57.6 62.5 57.8 61.6 58.1 60.7 58.5 59.9 59 59.2 59.6 58.6 60.2 57.9
+                  60.9 57.4 61.8 57.1 62.6 56.7 63.5 56.5 64.5 56.5zM15.2
+                  57.1L15.2 57.1 15.2 63.6 15.2 63.7 20.6 67.4 21.2 66.5 16.2 63.2 16.2 57.1 15.2
+                  57.1zM100.2 60.2L100.2 60.2C100.2 60.2 100.2 60.2 100.2 60.2L100.2
+                  60.2zM100.2 60.2L99.6 63.4 96.4 62.3C96.5 62.7 96.5 63 96.5 63.4 96.5 64.4 96.4
+                  65.2 96 66.1 95.6 66.9 95.2 67.6 94.5 68.3 93.9 68.9 93.2 69.4 92.3 69.8 91.5 70.1
+                  90.6 70.3 89.7 70.3 88.7 70.3 87.8 70.1 86.9 69.8 86.6
+                  69.6 86.2 69.4 85.9 69.2L88.4 68 84.6 66.4 80.9 64.7 79.8 68.7 78.8 72.7 81.9 71.2C81.9
+                  71.2 81.9 71.2 81.9 71.2 84 73.3 86.6 74.4 89.7 74.4 92.7
+                  74.4 95.3 73.3 97.4 71.2 99.6 69.1 100.6 66.5
+                  100.6 63.4 100.6 62.3 100.5 61.2 100.2 60.2z"
+                  fill="#fff"/>
+          </svg>
+        </a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">Home</a></li>
+          <li><a href="/getting-started.html">Getting started</a></li>
+          <li class="active"><a href="/documentation.html" class="active">Documentation</a></li>
+          <li><a href="https://github.com/sebastianfeldmann/phpbu">GitHub</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-left"><li class="dropdown">
+  <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Versions <span class="caret"></span></a>
+  <ul role="menu" class="dropdown-menu">
+<li class="dropdown-header">6.0 (stable)</li><li><a href="../../6.0/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">5.2 (old stable)</li><li><a href="../../5.2/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">5.1 (unsupported)</li><li><a href="../../5.1/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">5.0 (unsupported)</li><li class="active"><a href="../../5.0/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">4.0 (unsupported)</li><li><a href="../../4.0/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">3.2 (unsupported)</li><li><a href="../../3.2/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">3.1 (unsupported)</li><li><a href="../../3.1/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">3.0 (unsupported)</li><li><a href="../../3.0/en/index.html"><span class="flag en"></span>English</a></li>
+<li class="divider"></li>
+<li class="dropdown-header">2.1 (unsupported)</li><li><a href="../../2.1/en/index.html"><span class="flag en"></span>English</a></li>
+  </ul>
+</li>
+</ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="doc-sidebar hidden-print">
+          <dl class="toc nav hidden-print"><dt><span class="chapter"><a href="installation.html">1. Installing PHPBU</a></span></dt><dd><dl><dt><span class="section"><a href="installation.html#installation.requirements">Requirements</a></span></dt><dt><span class="section"><a href="installation.html#installation.phar">PHP Archive (PHAR)</a></span></dt><dt><span class="section"><a href="installation.html#installation.composer">Composer</a></span></dt><dt><span class="section"><a href="installation.html#installation.integrations">Framework integrations</a></span></dt></dl></dd><dt><span class="chapter"><a href="configuration.html">2. Configuration</a></span></dt><dd><dl><dt><span class="section"><a href="configuration.html#configuration.xml">XML-Configuration</a></span></dt><dd><dl><dt><span class="section"><a href="configuration.html#configuration.xml.elements">List of tags</a></span></dt></dl></dd><dt><span class="section"><a href="configuration.html#configuration.json">JSON-Configuration</a></span></dt><dt><span class="section"><a href="configuration.html#configuration.adapters">Adapters</a></span></dt><dt><span class="section"><a href="configuration.html#configuration.schedule">Schedule backups</a></span></dt></dl></dd><dt><span class="chapter"><a href="adapters.html">3. Configuration Adapters</a></span></dt><dd><dl><dt><span class="section"><a href="adapters.html#adapters.env">Environment adapter "env"</a></span></dt><dt><span class="section"><a href="adapters.html#adapters.dotenv">Dotenv adapter "dotenv"</a></span></dt><dt><span class="section"><a href="adapters.html#adapters.array">PHP config adapter "array"</a></span></dt></dl></dd><dt><span class="chapter"><a href="cli.html">4. The Command-Line-Runner</a></span></dt><dd><dl><dt><span class="section"><a href="cli.html#cli.options">Command-Line-Runner options</a></span></dt><dt><span class="section"><a href="cli.html#cli.simulation">Simulation</a></span></dt><dt><span class="section"><a href="cli.html#cli.limit">Limit</a></span></dt></dl></dd><dt><span class="chapter"><a href="source.html">5. Backup Sources</a></span></dt><dd><dl><dt><span class="section"><a href="source.html#source.arangodump">ArangoDB</a></span></dt><dt><span class="section"><a href="source.html#source.elasticdump">Elastic</a></span></dt><dt><span class="section"><a href="source.html#source.mongodump">MongoDB</a></span></dt><dt><span class="section"><a href="source.html#source.mysqldump">MySQL - mysqldump</a></span></dt><dt><span class="section"><a href="source.html#source.xtrabackup">MySQL - xtrabackup</a></span></dt><dt><span class="section"><a href="source.html#source.pgdump">pgdump</a></span></dt><dt><span class="section"><a href="source.html#source.redis">redis</a></span></dt><dt><span class="section"><a href="source.html#source.rsync">rsync</a></span></dt><dt><span class="section"><a href="source.html#source.tar">Directories</a></span></dt><dd><dl><dt><span class="section"><a href="source.html#source.tar.throttling">IO Throttling</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="check.html">6. Backup Validation</a></span></dt><dd><dl><dt><span class="section"><a href="check.html#check.sizemin">Minimal size</a></span></dt><dt><span class="section"><a href="check.html#check.sizediff">Compare to previous Backups</a></span></dt></dl></dd><dt><span class="chapter"><a href="crypt.html">7. Encryption</a></span></dt><dd><dl><dt><span class="section"><a href="crypt.html#crypt.mcrypt">mcrypt</a></span></dt><dt><span class="section"><a href="crypt.html#crypt.openssl">openssl</a></span></dt></dl></dd><dt><span class="chapter"><a href="sync.html">8. Sync Backups</a></span></dt><dd><dl><dt><span class="section"><a href="sync.html#sync.amazon">Amazon S3</a></span></dt><dt><span class="section"><a href="sync.html#sync.dropbox">Dropbox</a></span></dt><dt><span class="section"><a href="sync.html#sync.rsync">Rsync</a></span></dt><dt><span class="section"><a href="sync.html#sync.sftp">SFTP / FTP</a></span></dt><dt><span class="section"><a href="sync.html#sync.softlayer">Softlayer Object Storage</a></span></dt></dl></dd><dt><span class="chapter"><a href="cleanup.html">9. Cleanup backups</a></span></dt><dd><dl><dt><span class="section"><a href="cleanup.html#cleanup.capacity">Cleanup by capacity</a></span></dt><dt><span class="section"><a href="cleanup.html#cleanup.outdated">Cleanup by date</a></span></dt><dt><span class="section"><a href="cleanup.html#cleanup.quantity">Cleanup by quantity</a></span></dt><dt><span class="section"><a href="cleanup.html#cleanup.stepwise">Cleanup stepwise</a></span></dt></dl></dd><dt><span class="chapter"><a href="logging.html" class="active">10. Logging</a></span></dt><dd><dl><dt><span class="section"><a href="logging.html#logging.json">JSON</a></span></dt><dt><span class="section"><a href="logging.html#logging.email">E-Mail</a></span></dt><dt><span class="section"><a href="logging.html#logging.webhook">Webhook</a></span></dt></dl></dd><dt><span class="chapter"><a href="extending-phpbu.html">11. Extending PHPBU</a></span></dt><dd><dl><dt><span class="section"><a href="extending-phpbu.html#extending.simulation">Executing and simulating</a></span></dt><dt><span class="section"><a href="extending-phpbu.html#extending.source">Create a custom Source</a></span></dt><dt><span class="section"><a href="extending-phpbu.html#extending.check">Create a custom Check</a></span></dt><dt><span class="section"><a href="extending-phpbu.html#extending.sync">Create a custom Sync</a></span></dt><dt><span class="section"><a href="extending-phpbu.html#extending.cleaner">Create a custom Cleaner</a></span></dt><dt><span class="section"><a href="extending-phpbu.html#extending.adapter">Create a custom Adapter</a></span></dt><dt><span class="section"><a href="extending-phpbu.html#extending.logger">Create a custom Logger</a></span></dt><dt><span class="section"><a href="extending-phpbu.html#extending.summary">Summary</a></span></dt></dl></dd><dt><span class="chapter"><a href="integrations.html">12. Framework integrations</a></span></dt><dd><dl><dt><span class="section"><a href="integrations.html#integrations.laravel">Laravel</a></span></dt><dd><dl><dt><span class="section"><a href="integrations.html#integrations.laravel.installation">Installation</a></span></dt><dt><span class="section"><a href="integrations.html#integrations.laravel.configuration">Configuration</a></span></dt><dt><span class="section"><a href="integrations.html#integrations.laravel.usage">Usage</a></span></dt></dl></dd></dl></dd><dt><span class="appendix"><a href="appendixes.index.html">A. Index</a></span></dt><dd><dl><dt><span class="index"><a href="appendixes.index.html#appendixes.index.index"></a></span></dt></dl></dd><dt><span class="appendix"><a href="appendixes.copyright.html">B. Copyright</a></span></dt></dl>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-1 pull-left prev"><a accesskey="p" href="cleanup.html">Prev</a></div>
+          <div class="col-md-1 pull-right next"><a accesskey="n" href="extending-phpbu.html">Next</a></div>
+        </div>
+        <div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="logging"></a>Chapter 10. Logging</h1></div></div></div><a id="id3229" class="indexterm"></a><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="logging.json"></a>JSON</h2></div></div></div><p>
+      You can create a simple json logfile with PHPBU's json logger.
+    </p><div class="example"><a id="logging.json.example.xml"></a><p class="title"><strong>Example 10.1: json XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- create a json logfile --&gt;
+&lt;log type="json" target="backup/log.json"/&gt;</pre></div></div><br class="example-break"></br><div class="example"><a id="logging.json.example.json"></a><p class="title"><strong>Example 10.2: json JSON example</strong></p><div class="example-contents"><pre class="programlisting">{"type": "json", "target": "backup/log.json"}</pre></div></div><br class="example-break"></br></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="logging.email"></a>E-Mail</h2></div></div></div><p>
+      PHPBU uses SwiftMailer to send backup reports to one or more configured E-Mail-Addresses.
+      If you just want to get notified if something went wrong,
+      you can use the <code class="literal">sendOnlyOnError</code> option to not send any E-Mail on a successful backup.
+    </p><div class="table"><a id="logging.tables.options.email"></a><p class="title"><strong>Table 10.1. Capacity-Options</strong></p><div class="table-contents"><table class="table table-striped" summary="Capacity-Options"><colgroup><col></col><col></col><col></col><col></col><col></col></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">recipients</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">List of emails separated by semicolon.</td></tr><tr><td align="left">sendOnlyOnError</td><td align="left">string</td><td align="left">no</td><td align="left">false</td><td align="left">Sending reports only if something goes wrong.</td></tr><tr><td align="left">subject</td><td align="left">string</td><td align="left">no</td><td align="left">PHPBU Backup Report from $HOSTNAME</td><td align="left">E-Mail subject of the backup report.</td></tr><tr><td align="left">transport</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">SwiftMailer Transport that's used to send the E-Mail (mail, sendmail, smtp, null).</td></tr><tr><td align="left">sender.mail</td><td align="left">string</td><td align="left">phpbu@hostname</td><td align="left">-</td><td align="left">The sender E-Mail-Address</td></tr><tr><td align="left">sender.name</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">The sender name.</td></tr><tr><td align="left">sender.name</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">The sender name.</td></tr><tr><td align="left">sendmail options</td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr><tr><td align="left">sendmail.path</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Path to local sendmail binary.</td></tr><tr><td align="left">sendmail.options</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Sendmail options (e.g. -bs).</td></tr><tr><td align="left">SMTP options</td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr><tr><td align="left">smtp.port</td><td align="left">string</td><td align="left">no</td><td align="left">587</td><td align="left">Port to use to connect to SMTP server.</td></tr><tr><td align="left">smtp.host</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">SMTP hostname.</td></tr><tr><td align="left">smtp.username</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">The SMTP login.</td></tr><tr><td align="left">smtp.password</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">The SMTP password.</td></tr><tr><td align="left">smtp.encryption</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Type of encryption (e.g. ssl).</td></tr></tbody></table></div></div><br class="table-break"></br><div class="example"><a id="logging.mail.example.xml"></a><p class="title"><strong>Example 10.3: mail XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- use mail to keep up to date with you backup creation --&gt;
+&lt;log type="mail"&gt;
+  &lt;option name="transport" value="mail"/&gt;
+  &lt;option name="recipients" value="user.name@example.com"/&gt;
+&lt;/log&gt;</pre></div></div><br class="example-break"></br><div class="example"><a id="logging.mail.example.json"></a><p class="title"><strong>Example 10.4: mail JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "mail",
+  "options": {
+     "transport": "mail",
+     "recipients": "user.name@example.com"
+   }
+}</pre></div></div><br class="example-break"></br></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="logging.webhook"></a>Webhook</h2></div></div></div><p>
+      You can call a webhook and phpbu will send report data to the webhook.
+    </p><div class="table"><a id="logging.tables.options.webhook"></a><p class="title"><strong>Table 10.2. Webhook-Options</strong></p><div class="table-contents"><table class="table table-striped" summary="Webhook-Options"><colgroup><col></col><col></col><col></col><col></col><col></col></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">uri</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">URI to call</td></tr><tr><td align="left">username</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Basic auth user name.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Basic auth password.</td></tr><tr><td align="left">method</td><td align="left">string</td><td align="left">no</td><td align="left">get</td><td align="left">HTTP request method (get, post).</td></tr><tr><td align="left">contentType</td><td align="left">string</td><td align="left">no</td><td align="left">application/json</td><td align="left">Post method request body content type.</td></tr><tr><td align="left">template</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">A template to use for the request body For example if you want to you xml over json.</td></tr></tbody></table></div></div><br class="table-break"></br><div class="example"><a id="logging.webhook.example.xml"></a><p class="title"><strong>Example 10.5: webhook XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- call webhook --&gt;
+&lt;log type="webhook"&gt;
+  &lt;option name="uri" value="http://example.com/hook"/&gt;
+&lt;/log&gt;</pre></div></div><br class="example-break"></br><div class="example"><a id="logging.webhook.example.json"></a><p class="title"><strong>Example 10.6: webhook JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "webhook",
+  "options": {
+     "transport": "uri",
+     "recipients": "http://example.com/hook"
+   }
+}</pre></div></div><br class="example-break"></br><p>
+      If you change the request method to post by default you will receive a request body in the following format.
+    </p><div class="example"><a id="logging.webhook.example.request"></a><p class="title"><strong>Example 10.7: Default request body example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "status": 0,
+  "timestamp": 12783781381,
+  "duration": 234.3402,
+  "backupCount": 1,
+  "backupFailed": 0,
+  "errorCount": 0,
+  "errors": [],
+  "backups": [
+    {
+      "name":
+      "status":
+      "checks": {
+          "executed": 1,
+          "failed": 0,
+      },
+      "crypt": {
+          "executed": 1,
+          "skipped": 0,
+          "failed": 0,
+      },
+      "syncs" =&gt; {
+          "executed": 1,
+          "skipped": 0,
+          "failed": 0
+      },
+      "cleanup" =&gt; {
+          "executed": 1,
+          "skipped": 0,
+          "failed": 0
+      }
+    }
+  ]
+}</pre></div></div><br class="example-break"></br><p>
+      If this format doesn't work for you, you can define your own request body with a template.
+    </p><div class="example"><a id="logging.webhook.example.template"></a><p class="title"><strong>Example 10.8: Template example</strong></p><div class="example-contents"><pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;report&gt;
+  &lt;status&gt;%status%&lt;/status&gt;
+  &lt;date&gt;%timestamp%&lt;/date&gt;
+  &lt;backups&gt;
+    %%backup%%
+    &lt;backup&gt;
+      &lt;name&gt;%name%&lt;/name&gt;
+      &lt;status&gt;%status%&lt;/status&gt;
+    &lt;/backup&gt;
+    %%backup%%
+  &lt;/backups&gt;
+  &lt;errors&gt;
+    %%error%%
+    &lt;error class="%class%" message="%message%" file="%file%" line="%line%" /&gt;
+    %%error%%
+  &lt;/errors&gt;
+&lt;/report&gt;</pre></div></div><br class="example-break"></br></div></div>
+        <div class="row">
+          <div class="col-md-1 pull-left prev"><a accesskey="p" href="cleanup.html">Prev</a></div>
+          <div class="col-md-1 pull-right next"><a accesskey="n" href="extending-phpbu.html">Next</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="alert alert-info improve">Please <a href="https://github.com/sebastianfeldmann/phpbu-documentation/issues">open a ticket</a> on GitHub to suggest improvements to this page. Thanks!</div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <hr/>
+    <footer id="footer" class="clearfix">
+      <p class="copyright"><a href="appendixes.copyright.html">Copyright</a> &copy; 2014 - 2019 Sebastian Feldmann.</p>
+      <p class="social"><a href="https://twitter.com/phpbude" class="twitter" title="follow on twitter">follow on twitter</a></p>
+    </footer>
+  </div>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/highlight.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('pre.programlisting').each(function(i, e) {hljs.highlightBlock(e)});
+    });
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-59194092-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+ </body>
+</html>

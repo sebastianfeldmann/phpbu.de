@@ -1,0 +1,1671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>PHPBU Manual</title><link rel="stylesheet" type="text/css" href="css/docbook.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.0" /></head><body><div xml:lang="en" class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a id="phpbu"></a>PHPBU Manual</h1></div><div><h2 class="subtitle">Edition for PHPBU 5.0.</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Sebastian</span> <span class="surname">Feldmann</span></h3></div></div><div><p class="copyright">Copyright © 2014, 2015 Sebastian Feldmann</p></div><div><div class="legalnotice"><a id="id1319"></a><p>This work is licensed under the Creative Commons Attribution 3.0 Unported License.</p></div></div><div><p class="pubdate">2025.06.22</p></div></div><hr /></div><div class="toc"><dl class="toc"><dt><span class="chapter"><a href="#installation">1. Installing PHPBU</a></span></dt><dd><dl><dt><span class="section"><a href="#installation.requirements">Requirements</a></span></dt><dt><span class="section"><a href="#installation.phar">PHP Archive (PHAR)</a></span></dt><dt><span class="section"><a href="#installation.composer">Composer</a></span></dt><dt><span class="section"><a href="#installation.integrations">Framework integrations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#configuration">2. Configuration</a></span></dt><dd><dl><dt><span class="section"><a href="#configuration.xml">XML-Configuration</a></span></dt><dd><dl><dt><span class="section"><a href="#configuration.xml.elements">List of tags</a></span></dt></dl></dd><dt><span class="section"><a href="#configuration.json">JSON-Configuration</a></span></dt><dt><span class="section"><a href="#configuration.adapters">Adapters</a></span></dt><dt><span class="section"><a href="#configuration.schedule">Schedule backups</a></span></dt></dl></dd><dt><span class="chapter"><a href="#adapters">3. Configuration Adapters</a></span></dt><dd><dl><dt><span class="section"><a href="#adapters.env">Environment adapter "env"</a></span></dt><dt><span class="section"><a href="#adapters.dotenv">Dotenv adapter "dotenv"</a></span></dt><dt><span class="section"><a href="#adapters.array">PHP config adapter "array"</a></span></dt></dl></dd><dt><span class="chapter"><a href="#cli">4. The Command-Line-Runner</a></span></dt><dd><dl><dt><span class="section"><a href="#cli.options">Command-Line-Runner options</a></span></dt><dt><span class="section"><a href="#cli.simulation">Simulation</a></span></dt><dt><span class="section"><a href="#cli.limit">Limit</a></span></dt></dl></dd><dt><span class="chapter"><a href="#source">5. Backup Sources</a></span></dt><dd><dl><dt><span class="section"><a href="#source.arangodump">ArangoDB</a></span></dt><dt><span class="section"><a href="#source.elasticdump">Elastic</a></span></dt><dt><span class="section"><a href="#source.mongodump">MongoDB</a></span></dt><dt><span class="section"><a href="#source.mysqldump">MySQL - mysqldump</a></span></dt><dt><span class="section"><a href="#source.xtrabackup">MySQL - xtrabackup</a></span></dt><dt><span class="section"><a href="#source.pgdump">pgdump</a></span></dt><dt><span class="section"><a href="#source.redis">redis</a></span></dt><dt><span class="section"><a href="#source.rsync">rsync</a></span></dt><dt><span class="section"><a href="#source.tar">Directories</a></span></dt><dd><dl><dt><span class="section"><a href="#source.tar.throttling">IO Throttling</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#check">6. Backup Validation</a></span></dt><dd><dl><dt><span class="section"><a href="#check.sizemin">Minimal size</a></span></dt><dt><span class="section"><a href="#check.sizediff">Compare to previous Backups</a></span></dt></dl></dd><dt><span class="chapter"><a href="#crypt">7. Encryption</a></span></dt><dd><dl><dt><span class="section"><a href="#crypt.mcrypt">mcrypt</a></span></dt><dt><span class="section"><a href="#crypt.openssl">openssl</a></span></dt></dl></dd><dt><span class="chapter"><a href="#sync">8. Sync Backups</a></span></dt><dd><dl><dt><span class="section"><a href="#sync.amazon">Amazon S3</a></span></dt><dt><span class="section"><a href="#sync.dropbox">Dropbox</a></span></dt><dt><span class="section"><a href="#sync.rsync">Rsync</a></span></dt><dt><span class="section"><a href="#sync.sftp">SFTP / FTP</a></span></dt><dt><span class="section"><a href="#sync.softlayer">Softlayer Object Storage</a></span></dt></dl></dd><dt><span class="chapter"><a href="#cleanup">9. Cleanup backups</a></span></dt><dd><dl><dt><span class="section"><a href="#cleanup.capacity">Cleanup by capacity</a></span></dt><dt><span class="section"><a href="#cleanup.outdated">Cleanup by date</a></span></dt><dt><span class="section"><a href="#cleanup.quantity">Cleanup by quantity</a></span></dt><dt><span class="section"><a href="#cleanup.stepwise">Cleanup stepwise</a></span></dt></dl></dd><dt><span class="chapter"><a href="#logging">10. Logging</a></span></dt><dd><dl><dt><span class="section"><a href="#logging.json">JSON</a></span></dt><dt><span class="section"><a href="#logging.email">E-Mail</a></span></dt><dt><span class="section"><a href="#logging.webhook">Webhook</a></span></dt></dl></dd><dt><span class="chapter"><a href="#extending-phpbu">11. Extending PHPBU</a></span></dt><dd><dl><dt><span class="section"><a href="#extending.simulation">Executing and simulating</a></span></dt><dt><span class="section"><a href="#extending.source">Create a custom Source</a></span></dt><dt><span class="section"><a href="#extending.check">Create a custom Check</a></span></dt><dt><span class="section"><a href="#extending.sync">Create a custom Sync</a></span></dt><dt><span class="section"><a href="#extending.cleaner">Create a custom Cleaner</a></span></dt><dt><span class="section"><a href="#extending.adapter">Create a custom Adapter</a></span></dt><dt><span class="section"><a href="#extending.logger">Create a custom Logger</a></span></dt><dt><span class="section"><a href="#extending.summary">Summary</a></span></dt></dl></dd><dt><span class="chapter"><a href="#integrations">12. Framework integrations</a></span></dt><dd><dl><dt><span class="section"><a href="#integrations.laravel">Laravel</a></span></dt><dd><dl><dt><span class="section"><a href="#integrations.laravel.installation">Installation</a></span></dt><dt><span class="section"><a href="#integrations.laravel.configuration">Configuration</a></span></dt><dt><span class="section"><a href="#integrations.laravel.usage">Usage</a></span></dt></dl></dd></dl></dd><dt><span class="appendix"><a href="#appendixes.index">A. Index</a></span></dt><dd><dl><dt><span class="index"><a href="#appendixes.index.index"></a></span></dt></dl></dd><dt><span class="appendix"><a href="#appendixes.copyright">B. Copyright</a></span></dt></dl></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="installation"></a>Chapter 1. Installing PHPBU</h1></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="installation.requirements"></a>Requirements</h2></div></div></div><a id="id1320" class="indexterm"></a><p>
+      PHPBU 5.0 requires PHP 7.0, but using the latest version of PHP is highly recommended.
+    </p><p>
+      PHPBU requires the <a class="ulink" href="http://php.net/manual/en/dom.setup.php" target="_top">dom</a>
+      and <a class="ulink" href="http://php.net/manual/en/json.installation.php" target="_top">json</a>
+      extensions, which are normally enabled by default.
+    </p><p>
+      PHPBU also requires the
+      <a class="ulink" href="http://php.net/manual/en/spl.installation.php" target="_top">spl</a>
+      extension. It is required by the PHP core since 5.3.0 and normally cannot
+      be disabled.
+    </p><p>
+      The different backup sources may need their respective executable binary f.e. <code class="literal">mysqldump</code>.
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="installation.phar"></a>PHP Archive (PHAR)</h2></div></div></div><a id="id1321" class="indexterm"></a><p>
+      The easiest way to install PHPBU is to download a <a class="ulink" href="http://php.net/phar" target="_top">PHP Archive (PHAR)</a> that has all required
+      dependencies of PHPBU bundled in a single file.
+    </p><p>
+      If the <a class="ulink" href="http://suhosin.org/" target="_top">Suhosin</a> extension is
+      enabled, you need to allow execution of PHARs in your
+      <code class="literal">php.ini</code>:
+
+      </p><pre class="screen">suhosin.executor.include.whitelist = phar</pre><p>
+
+    </p><p>
+      To globally install the PHAR:
+    </p><pre class="screen">
+<code class="prompt">$</code> <strong class="userinput"><code>wget http://phar.phpbu.de/phpbu.phar</code></strong>
+<code class="prompt">$</code> <strong class="userinput"><code>chmod +x phpbu.phar</code></strong>
+<code class="prompt">$</code> <strong class="userinput"><code>sudo mv phpbu.phar /usr/local/bin/phpbu</code></strong>
+<code class="prompt">$</code> <strong class="userinput"><code>phpbu --version</code></strong>
+<code class="computeroutput">phpbu x.y.z by Sebastian Feldmann and Contributors.</code>
+</pre><p>
+      You may also use the downloaded PHAR file directly:
+    </p><pre class="screen">
+<code class="prompt">$</code> <strong class="userinput"><code>wget https://phar.phpbu.de/phpbu.phar</code></strong>
+<code class="prompt">$</code> <strong class="userinput"><code>php phpbu.phar --version</code></strong>
+<code class="computeroutput">phpbu x.y.z by Sebastian Feldmann and Contributors.</code>
+</pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="installation.composer"></a>Composer</h2></div></div></div><a id="id1322" class="indexterm"></a><p>
+      If you are using <a class="ulink" href="https://getcomposer.org/" target="_top">Composer</a> to manage
+      your dependencies, simply add <code class="literal">phpbu/phpbu</code> to your
+      <code class="literal">composer.json</code> file.
+    </p><pre class="programlisting">{
+    "require": {
+        "phpbu/phpbu": "5.0.*"
+    }
+}</pre><p>
+      For a system-wide installation via Composer, just run:
+    </p><pre class="screen"><strong class="userinput"><code>composer global require phpbu/phpbu</code></strong></pre><p>
+      Make sure you have <code class="literal">~/.composer/vendor/bin/</code> in your path.
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="installation.integrations"></a>Framework integrations</h2></div></div></div><p>
+      The following framework integrations are available:
+    </p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+          <code class="literal">phpbu-laravel</code>
+        </span></dt><dd><p>
+            Integrates phpbu with the laravel artisan command line tool.
+            See <a class="xref" href="#integrations.laravel" title="Laravel">the section called “Laravel”</a> for details.
+          </p></dd></dl></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="configuration"></a>Chapter 2. Configuration</h1></div></div></div><a id="id1431" class="indexterm"></a><p>
+    To use PHPBU and create your backups you first have to create a configuration file.
+  </p><p>
+    The configuration of PHPBU is done with a simple XML file.
+    You can validate your config files with the respective PHPBU schema definition found at
+    <a class="ulink" href="http://schema.phpbu.de" target="_top">schema.phpbu.de</a>.
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="configuration.xml"></a>XML-Configuration</h2></div></div></div><a id="id1437" class="indexterm"></a><p>
+      You should name your configuration file <code class="literal">phpbu.xml</code> or <code class="literal">phpbu.xml.dist</code>
+      so you don't have to specify the path with the <code class="literal">--configuration</code> option.
+    </p><p>
+      The following skeleton is a good point to start and get into detail from here.
+    </p><div class="example"><a id="id1445"></a><p class="title"><strong>Example 2.1: XML-Configuration</strong></p><div class="example-contents"><pre class="programlisting">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;phpbu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://schema.phpbu.de/5.0/phpbu.xsd"&gt;
+  &lt;backups&gt;
+    &lt;backup name="MyDatabase"&gt;
+      &lt;!-- backup source --&gt;
+      &lt;source type="mysqldump"&gt;
+        &lt;option name="databases" value="mydbname"/&gt;
+        &lt;option name="user" value="user.name"/&gt;
+        &lt;option name="password" value="topsecret"/&gt;
+      &lt;/source&gt;
+      &lt;!-- where should the backup be stored --&gt;
+      &lt;target dirname="backup/mysql"
+              filename="mysqldump-%Y%m%d-%H%i.sql"
+              compress="bzip2"/&gt;
+      &lt;!-- check the created backup --&gt;
+      &lt;check type="SizeMin" value="10M"/&gt;
+      &lt;!-- cleanup the backup location
+           as soon as all created backups exceed 500MB
+           remove oldest backups --&gt;
+      &lt;cleanup type="Capacity"&gt;
+        &lt;option name="size" value="500M"/&gt;
+      &lt;/cleanup&gt;
+    &lt;/backup&gt;
+  &lt;/backups&gt;
+&lt;/phpbu&gt;</pre></div></div><br class="example-break" /><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="configuration.xml.elements"></a>List of tags</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.phpbu"></a>&lt;phpbu&gt;</h4></div></div></div><p>
+          The XML root element with at least xmlns:xsi and xsi:noNamespaceSchemaLocation.
+        </p><div class="table"><a id="configuration.xml.elements.tables.phpbu"></a><p class="title"><strong>Table 2.1. &lt;phpbu&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;phpbu&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">bootstrap</td><td align="left">filename</td><td align="left">no</td><td align="left">null</td><td align="left">Include a php file to extend PHPBU</td></tr><tr><td align="left">verbose</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">Controls the output verbosity</td></tr><tr><td align="left">debug</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">Controls the debug output</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.backup"></a>&lt;backup&gt;</h4></div></div></div><p>
+          Configures a backup process.
+          You can have as many of these as you need.
+        </p><div class="table"><a id="configuration.xml.elements.tables.backup"></a><p class="title"><strong>Table 2.2. &lt;backup&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;backup&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">name</td><td align="left">string</td><td align="left">yes</td><td align="left">null</td><td align="left">A custom name for your backup used in the PHPBU output.</td></tr><tr><td align="left">stopOnError</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">Tells if the execution of phpbu will be stopped if this backup fails.</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.source"></a>&lt;source&gt;</h4></div></div></div><p>
+          Defines the data that is backed up.
+        </p><div class="table"><a id="configuration.xml.elements.tables.source"></a><p class="title"><strong>Table 2.3. &lt;source&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;source&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">type</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Type of backup, <a class="xref" href="#source" title="Chapter 5. Backup Sources">Chapter 5</a> has a list of all supported source types.</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.target"></a>&lt;target&gt;</h4></div></div></div><p>
+          Defines where the backup is stored.
+        </p><div class="table"><a id="configuration.xml.elements.tables.target"></a><p class="title"><strong>Table 2.4. &lt;target&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;target&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">dirname</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Path to the directory where the backup is stored, absolute or relative to the config file.</td></tr><tr><td align="left">filename</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Filename of the stored backup.</td></tr><tr><td align="left">compress</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">Type of compressor to use to compress the backup.</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.check"></a>&lt;check&gt;</h4></div></div></div><p>
+          Specifies what kind of tests should be performed to validate the backup.
+        </p><div class="table"><a id="configuration.xml.elements.tables.check"></a><p class="title"><strong>Table 2.5. &lt;check&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;check&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">type</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Type of check, <a class="xref" href="#check" title="Chapter 6. Backup Validation">Chapter 6</a> has a list of all supported check types.</td></tr><tr><td align="left">value</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Value the backup is getting checked against.</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.crypt"></a>&lt;crypt&gt;</h4></div></div></div><p>
+          Specifies what kind of encryption should be used to encrypt the backup.
+        </p><div class="table"><a id="configuration.xml.elements.tables.crypt"></a><p class="title"><strong>Table 2.6. &lt;crypt&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;crypt&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">type</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Type of encryption, <a class="xref" href="#crypt" title="Chapter 7. Encryption">Chapter 7</a> has a list of all supported crypt types.</td></tr><tr><td align="left">skipOnFailure</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">You can still execute the encryption, even of some failure occurred.</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.sync"></a>&lt;sync&gt;</h4></div></div></div><p>
+          Copy the created backup to another location.
+        </p><div class="table"><a id="configuration.xml.elements.tables.sync"></a><p class="title"><strong>Table 2.7. &lt;sync&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;sync&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">type</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Type of sync, <a class="xref" href="#sync" title="Chapter 8. Sync Backups">Chapter 8</a> has a list of all supported sync types.</td></tr><tr><td align="left">skipOnFailure</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">You can still execute the sync, even of some failure occurred.</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.cleanup"></a>&lt;cleanup&gt;</h4></div></div></div><p>
+         Tells phpbu which files to delete after a successful backup.
+        </p><div class="table"><a id="configuration.xml.elements.tables.cleanup"></a><p class="title"><strong>Table 2.8. &lt;cleanup&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;cleanup&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">type</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Type of cleanup, <a class="xref" href="#cleanup" title="Chapter 9. Cleanup backups">Chapter 9</a> has a list of all supported cleanup types.</td></tr><tr><td align="left">skipOnFailure</td><td align="left">true | false</td><td align="left">no</td><td align="left">-</td><td align="left">You can still execute the cleanup, even of some failure occurred.</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="configuration.xml.elements.option"></a>&lt;option&gt;</h4></div></div></div><p>
+          A simple key value tag to configure &lt;source&gt;, &lt;crypt&gt;, &lt;sync&gt; and &lt;cleanup&gt;.
+        </p><div class="table"><a id="configuration.xml.elements.tables.option"></a><p class="title"><strong>Table 2.9. &lt;option&gt; attributes</strong></p><div class="table-contents"><table summary="&lt;option&gt; attributes" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Values</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">name</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Option key.</td></tr><tr><td align="left">value</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Option value.</td></tr></tbody></table></div></div><br class="table-break" /></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="configuration.json"></a>JSON-Configuration</h2></div></div></div><a id="id1695" class="indexterm"></a><p>
+      This is roughly the same skeleton as shown above at the XML-Section.
+    </p><div class="example"><a id="id1699"></a><p class="title"><strong>Example 2.2: JSON-Configuration</strong></p><div class="example-contents"><pre class="programlisting">
+{
+  "verbose": true,
+  "logging": [
+    {
+      "type": "json",
+      "target": "backup/json.log"
+    }
+  ],
+  "backups": [
+    {
+      "name": "MyDatabase",
+      "source": {
+        "type": "mysqldump",
+        "options": {
+          "databases": "mydbname",
+          "user": "user.name",
+          "password": "topsecret"
+        }
+      },
+      "target": {
+        "dirname": "backup",
+        "filename": "mysql-%Y%m%d-%H%i.sql",
+        "compress": "bzip2"
+      },
+      "checks": [
+        {
+          "type": "sizemin",
+          "value": "10M"
+        }
+      ],
+      "syncs": [
+        {
+          "type": "sftp",
+          "options": {
+            "host": "backup.example.com",
+            "user": "user.name",
+            "password": "topsecret",
+            "path": "backup/someName"
+          }
+        }
+      ],
+      "cleanup": {
+        "type": "Capacity",
+        "options": {
+          "size": "200M"
+        }
+      }
+    }
+  ]
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="configuration.adapters"></a>Adapters</h2></div></div></div><a id="id1702" class="indexterm"></a><p>
+      Adapters are used to include configuration settings from other configuration sources.
+    </p><p>
+      So with adapters you don't have to put your passwords into your phpbu configuration file.
+      Instead you can use environment variables or .env configuration files.
+    </p><p>
+      And this ist how it works:
+      You add an adapter to your phpbu configuration like shown in the examples below.
+      You have to choose a <code class="literal">type</code> and a <code class="literal">name</code>. The name is completely up to you, but you are not allowed
+      to use colons.
+      With this done you can now reference your configured adapter for any option value in your phpbu configuration like this.
+    </p><p>
+      <code class="literal">:adapter:my-chosen-adapter-name:path.to.value:</code>
+    </p><p>
+      The keyword <code class="literal">adapter</code> tells phpbu that this option value should be received from an adapter,
+      followed by a <code class="literal">colon</code>, followed by your chosen <code class="literal">adapter name</code> so phpbu knows which adapter to use,
+      followed by a <code class="literal">colon</code>, followed by the identifier for your value.
+      The identifier could be the name of a environment variable or a "path" through an configuration array like this
+      "db.mysql.username" completely depending on the adapter implementation.
+    </p><p>
+      You can use adapter values for whole configuration values, in that case you can skip the leading and trailing colons.
+      If you want to use multiple adapter values in a single configuration value you have to use the leading and trailing colons.
+    </p><div class="example"><a id="id1718"></a><p class="title"><strong>Example 2.3: Adapter examples</strong></p><div class="example-contents"><pre class="programlisting">
+&lt;option name="singleValue" value="adapter:myAdp:foo"/&gt;
+&lt;option name="multipleValues" value="/foo/:adapter:myAdp:dir:/bar/:adapter:myAdp:file:.zip"/&gt;</pre><pre class="programlisting">
+{"singleValue": "adapter:myAdp:foo"}
+{"multipleValues": "/foo/:adapter:myAdp:dir:/bar/:adapter:myAdp:file:.zip"}</pre></div></div><br class="example-break" /><p>
+      For a list of available adapters and a more detailed documentation check out the <a class="link" href="#adapters" title="Chapter 3. Configuration Adapters">adapter section</a>.
+    </p><div class="example"><a id="id1724"></a><p class="title"><strong>Example 2.4: XML-Configuration</strong></p><div class="example-contents"><pre class="programlisting">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;phpbu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://schema.phpbu.de/5.0/phpbu.xsd"&gt;
+  &lt;adapters&gt;
+    &lt;adapter type="dotenv" name="environment"&gt;
+      &lt;option name="file" value=".env"&gt;
+    &lt;/adapter&gt;
+  &lt;adapters&gt;
+  &lt;backups&gt;
+    &lt;backup&gt;
+      &lt;!-- backup source --&gt;
+      &lt;source type="mysqldump"&gt;
+        &lt;option name="databases" value="mydbname"/&gt;
+        &lt;option name="user" value="adapter:environment:DB_USER"/&gt;
+        &lt;option name="password" value="adapter:environment:DB_PASSWORD"/&gt;
+      &lt;/source&gt;
+      &lt;!-- where should the backup be stored --&gt;
+      &lt;target dirname="backup/mysql"
+              filename="mysqldump-%Y%m%d-%H%i.sql"/&gt;
+    &lt;/backup&gt;
+  &lt;/backups&gt;
+&lt;/phpbu&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="id1727"></a><p class="title"><strong>Example 2.5: JSON-Configuration</strong></p><div class="example-contents"><pre class="programlisting">
+{
+  "verbose": true,
+  "adapters": [
+    {
+      "type": "dotenv",
+      "name": "environment",
+      "options": {
+        "file": ".env"
+      }
+    }
+  ],
+  "backups": [
+    {
+      "source": {
+        "type": "mysqldump",
+        "options": {
+          "databases": "mydbname",
+          "user": "adapter:environment:DB_USER",
+          "password": "adapter:environment:DB_PASSWORD"
+        }
+      },
+      "target": {
+        "dirname": "backup",
+        "filename": "mysql-%Y%m%d-%H%i.sql"
+      }
+    }
+  ]
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="configuration.schedule"></a>Schedule backups</h2></div></div></div><a id="id1730" class="indexterm"></a><p>
+      Scheduling your backups is not part of phpbu. Nevertheless here is an example how to do
+      it with <a class="ulink" href="https://de.wikipedia.org/wiki/Cron" target="_top">Cron</a>. Adding one of the following lines
+      to your crontab will execute your backup every morning at 3:10 AM.
+    </p><div class="example"><a id="id1735"></a><p class="title"><strong>Example 2.6: Crontab example</strong></p><div class="example-contents"><pre class="programlisting"># +------------------------- min (0 - 59)
+# |    +-------------------- hour (0 - 23)
+# |    |    +--------------- day of month (1 - 31)
+# |    |    |    +---------- month (1 - 12)
+# |    |    |    |    +----- day of week (0 - 7) (Sunday=0 or 7)
+# |    |    |    |    |
+# *    *    *    *    *
+
+# this requires phpbu to be in the cron users path
+10     3    *    *    * phpbu --configuration=/var/www/my-backup/phpbu.xml
+
+# alternatively you can specify the full path
+#10     3    *    *    * /home/user/bin/phpbu.phar --configuration=/var/www/my-backup/phpbu.xml
+        </pre></div></div><br class="example-break" /></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="adapters"></a>Chapter 3. Configuration Adapters</h1></div></div></div><p>
+    For a basic understanding why adapters are useful,
+    have a look at the <a class="link" href="#configuration.adapters" title="Adapters">configuration documentation</a>.
+  </p><p>
+    You can build your own configuration adapter.
+    Want to know how? Have a look at the <a class="link" href="#extending.adapter" title="Create a custom Adapter">extending phpbu section</a>
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="adapters.env"></a>Environment adapter "env"</h2></div></div></div><a id="id1744" class="indexterm"></a><p>
+      Adapter to use environment variables for option values.
+    </p><div class="example"><a id="id1748"></a><p class="title"><strong>Example 3.1: Adapter definition</strong></p><div class="example-contents"><pre class="programlisting">
+  &lt;adapter type="env" name="myName"&gt;&lt;/adapter&gt;
+</pre></div></div><br class="example-break" /><div class="example"><a id="id1751"></a><p class="title"><strong>Example 3.2: Adapter reference</strong></p><div class="example-contents"><pre class="programlisting">
+  &lt;option name="password" value="adapter:myName:SOME_ENV_VAR" /&gt;
+</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="adapters.dotenv"></a>Dotenv adapter "dotenv"</h2></div></div></div><a id="id1754" class="indexterm"></a><p>
+      Adapter to use .env files to load environment variables.
+    </p><div class="table"><a id="adapters.env.tables.options"></a><p class="title"><strong>Table 3.1. Options</strong></p><div class="table-contents"><table summary="Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th><td class="auto-generated"> </td></tr></thead><tbody><tr><td align="left">file</td><td align="left">no</td><td align="left">.env</td><td align="left">Path to the .env file</td><td class="auto-generated"> </td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="id1773"></a><p class="title"><strong>Example 3.3: Adapter definition</strong></p><div class="example-contents"><pre class="programlisting">
+  &lt;adapter type="dotenv" name="myName"&gt;
+    &lt;option name="file" value="my-dot-env-dir/.env"/&gt;
+  &lt;/adapter&gt;
+</pre></div></div><br class="example-break" /><div class="example"><a id="id1776"></a><p class="title"><strong>Example 3.4: Adapter reference</strong></p><div class="example-contents"><pre class="programlisting">
+  &lt;option name="password" value="adapter:myName:SOME_DOTENV_VAR" /&gt;
+</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="adapters.array"></a>PHP config adapter "array"</h2></div></div></div><a id="id1779" class="indexterm"></a><p>
+      Adapter to use php array config files.
+    </p><div class="example"><a id="id1783"></a><p class="title"><strong>Example 3.5: Example PHP config file</strong></p><div class="example-contents"><pre class="programlisting">
+&lt;?php return ['foo' =&gt; ['bar' =&gt; 'baz']];
+</pre></div></div><br class="example-break" /><div class="table"><a id="adapters.array.tables.options"></a><p class="title"><strong>Table 3.2. Options</strong></p><div class="table-contents"><table summary="Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th><td class="auto-generated"> </td></tr></thead><tbody><tr><td align="left">file</td><td align="left">yes</td><td align="left">-</td><td align="left">Path to the php config file</td><td class="auto-generated"> </td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="id1801"></a><p class="title"><strong>Example 3.6: Adapter definition</strong></p><div class="example-contents"><pre class="programlisting">
+  &lt;adapter type="array" name="myName"&gt;
+    &lt;option name="file" value="my-config-dir/config.php"/&gt;
+  &lt;/adapter&gt;
+</pre></div></div><br class="example-break" /><div class="example"><a id="id1804"></a><p class="title"><strong>Example 3.7: Adapter reference</strong></p><div class="example-contents"><pre class="programlisting">
+  &lt;option name="password" value="adapter:myName:foo.bar" /&gt;
+</pre></div></div><br class="example-break" /></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="cli"></a>Chapter 4. The Command-Line-Runner</h1></div></div></div><a id="id1807" class="indexterm"></a><p>
+    If you have a configuration file named <code class="literal">phpbu.xml</code> in your current working directory you can execute phpbu like this
+  </p><pre class="screen">~$ <strong class="userinput"><code>phpbu</code></strong>
+phpbu 5.0.0 by Sebastian Feldmann and Contributors.
+
+OK (1 backup, 0 checks, 0 encryption, 0 syncs, 0 cleanups)</pre><p>
+    If you want to use a custom name for your configuration file you have to use the <code class="literal">--configuration</code> option.
+  </p><pre class="screen">~$ <strong class="userinput"><code>phpbu --configuration=MyConfig.xml</code></strong>
+phpbu 5.0.0 by Sebastian Feldmann abd Contributors.
+
+OK (1 backup, 0 checks, 0 encryption, 0 syncs, 0 cleanups)</pre><p>
+
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="cli.options"></a>Command-Line-Runner options</h2></div></div></div><p>
+      Here is the list of available options for the command line runner.
+    </p><pre class="screen">$ <strong class="userinput"><code>phpbu --help</code></strong>
+phpbu 5.0.0 by Sebastian Feldmann and Contributors.
+
+Usage: phpbu [option]
+
+--bootstrap=&lt;file&gt;     A "bootstrap" PHP file that is included before the backup.
+--configuration=&lt;file&gt; A phpbu xml config file.
+--colors               Use colors in output.
+--debug                Display debugging information during backup generation.
+--limit=&lt;subset&gt;       Limit backup execution to a subset.
+--simulate             Perform a trial run with no changes made.
+-h, --help             Print this usage information.
+-v, --verbose          Output more verbose information.
+-V, --version          Output version information and exit.</pre><div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="literal">--bootstrap</code></span></dt><dd><p>
+            A "bootstrap" PHP file that is included before executing the backup.
+          </p></dd><dt><span class="term"><code class="literal">--configuration</code></span></dt><dd><p>
+            Path to the phpbu config file to use.
+            See <a class="xref" href="#configuration" title="Chapter 2. Configuration">Chapter 2</a> for more details.
+          </p></dd><dt><span class="term"><code class="literal">--colors</code></span></dt><dd><p>
+            Use colors in output.
+          </p></dd><dt><span class="term"><code class="literal">--debug</code></span></dt><dd><p>
+            Display debugging information during backup generation.
+          </p></dd><dt><span class="term"><code class="literal">--limit</code></span></dt><dd><p>
+            Limit backup execution to a subset.
+            See the <a class="link" href="#cli.limit" title="Limit">limit section</a> for details.
+          </p></dd><dt><span class="term"><code class="literal">--simulate</code></span></dt><dd><p>
+            Execute phpbu without actually executing any backup, check, encryption, sync or cleanup task.
+            See the <a class="link" href="#cli.simulation" title="Simulation">simulation section</a> for details.
+          </p></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="cli.simulation"></a>Simulation</h2></div></div></div><a id="id1858" class="indexterm"></a><a id="id1860" class="indexterm"></a><p>
+      In order to check what actions phpbu would perform, phpbu supports a simulation mode where no backup is actually created and no
+      sync and cleanup tasks are executed. In simulation mode, phpbu will show you, what it would have done, if it would
+      not have been a simulation run. You will get detailed output, which enables you to track every action phpbu
+      would have performed.
+    </p><p>
+      This is a great way to test if the correct backup commands will be executed
+      and if all the right backups will be cleaned up.
+    </p><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3><p>
+        If phpbu has to use any kind of credentials executing a binaries, like for example the
+        <code class="literal">mysqldump</code> command, this credentials will maybe displayed in the simulation output.
+      </p></div><p>
+      If you are extending phpbu, you can support simulation as well. You can find detailed information on this
+      in <a class="xref" href="#extending-phpbu" title="Chapter 11. Extending PHPBU">Chapter 11</a>.
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="cli.limit"></a>Limit</h2></div></div></div><a id="id1870" class="indexterm"></a><a id="id1872" class="indexterm"></a><p>
+      If you don't want to execute all of your configured backups you can define a subset of backups by using the
+      limit option.
+    </p><p>
+      All you have to to, is to set the limit option to a comma separated list of backup names (nameA,nameB,nameC).
+    </p><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3><p>
+        If you don't define explicit backup names, phpbu will use the source type as backup name as fallback.
+      </p></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="source"></a>Chapter 5. Backup Sources</h1></div></div></div><a id="id1879" class="indexterm"></a><p>
+    You can configure multiple Backups in one configuration file.
+    Each backup is represented by a <code class="literal">&lt;backup&gt;</code> Tag.
+    To configure the data that is stored use the <code class="literal">&lt;source&gt;</code> Tag.
+  </p><div class="table"><a id="source.tables.available-sources"></a><p class="title"><strong>Table 5.1. Supported types of backup sources:</strong></p><div class="table-contents"><table summary="Supported types of backup sources:" border="1"><colgroup><col /><col /></colgroup><thead><tr><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">arangodump</td><td align="left">Backup ArangoDB with the arangodump command line tool.</td></tr><tr><td align="left">elasticdump</td><td align="left">Backup Elasticsearch with the elasticdump command line tool.</td></tr><tr><td align="left">mongodump</td><td align="left">Backup MongoDB with the mongodump command line tool.</td></tr><tr><td align="left">mysqldump</td><td align="left">Backup MySQL with the mysqldump command line tool.</td></tr><tr><td align="left">pgdump</td><td align="left">Backup PostgresSQL with the pg_dump command line tool.</td></tr><tr><td align="left">redis</td><td align="left">Backup redis with the redis-cli command line tool.</td></tr><tr><td align="left">rsync</td><td align="left">Collect files via the rsync command line tool.</td></tr><tr><td align="left">tar</td><td align="left">Backup a directory with the tar command line tool.</td></tr><tr><td align="left">xtrabackup</td><td align="left">Backup MySQL with the percona xtrabackup command line tool.</td></tr></tbody></table></div></div><br class="table-break" /><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.arangodump"></a>ArangoDB</h2></div></div></div><a id="id1920" class="indexterm"></a><p>
+      Backup a ArangoDB database with arangodump.
+    </p><div class="table"><a id="source.tables.options.arangodump"></a><p class="title"><strong>Table 5.2. arangodump-Options</strong></p><div class="table-contents"><table summary="arangodump-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">endpoint</td><td align="left">string</td><td align="left">no</td><td align="left">tcp://localhost:8529</td><td align="left">URI to your ArangoDB endpoint.</td></tr><tr><td align="left">username</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">Username for the ArangoDB authentication.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">Password for the ArangoDB authentication.</td></tr><tr><td align="left">disableAuthentication</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Disable the ArangoDB authentication.</td></tr><tr><td align="left">database</td><td align="left">string</td><td align="left">no</td><td align="left">_system</td><td align="left">Database to backup.</td></tr><tr><td align="left">dumpData</td><td align="left">boolean</td><td align="left">no</td><td align="left">true</td><td align="left">Dump database data.</td></tr><tr><td align="left">includeSystemCollections</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Dump system collections as well.</td></tr><tr><td align="left">collections</td><td align="left">string</td><td align="left">no</td><td align="left">all</td><td align="left">List of collections to dump.</td></tr><tr><td align="left">pathToArangoDump</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom arangodump executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.arangodump.example.xml"></a><p class="title"><strong>Example 5.1: arangodump XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source arangodump --&gt;
+&lt;source type="arangodump"&gt;
+  &lt;option name="database" value="myDatabase" /&gt;
+  &lt;option name="dumpData" value="true" /&gt;
+  &lt;option name="collections" value="myCollection1,myCollection2" /&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.arangodump.example.json"></a><p class="title"><strong>Example 5.2: arangodump JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "arangodump",
+  "options": {
+    "database": "myDatabase",
+    "dumpData": "true",
+    "collections": "myCollection1,myCollection2"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.elasticdump"></a>Elastic</h2></div></div></div><a id="id1995" class="indexterm"></a><p>
+      Backup a Elastic index with elasticdump.
+    </p><div class="table"><a id="source.tables.options.elasticdump"></a><p class="title"><strong>Table 5.3. arangodump-Options</strong></p><div class="table-contents"><table summary="arangodump-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">host</td><td align="left">string</td><td align="left">no</td><td align="left">localhost:9200</td><td align="left">URI to your Elastic host.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">Username for the Elastic authentication.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">Password for the Elastic authentication.</td></tr><tr><td align="left">index</td><td align="left">string</td><td align="left">no</td><td align="left">all</td><td align="left">Index name to backup.</td></tr><tr><td align="left">type</td><td align="left">string</td><td align="left">data</td><td align="left">true</td><td align="left">Elastic type to dump.</td></tr><tr><td align="left">pathToElasticDump</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom elasticdump executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.elasticdump.example.xml"></a><p class="title"><strong>Example 5.3: elasticdump XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source elasticdump --&gt;
+&lt;source type="elasticdump"&gt;
+  &lt;option name="index" value="myIndex" /&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.elasticdump.example.json"></a><p class="title"><strong>Example 5.4: elasticdump JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "elasticdump",
+  "options": {
+    "index": "myIndex"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.mongodump"></a>MongoDB</h2></div></div></div><a id="id2052" class="indexterm"></a><p>
+      Backup a MongoDB database with mongodump.
+    </p><div class="table"><a id="source.tables.options.mongodump"></a><p class="title"><strong>Table 5.4. mongodump-Options</strong></p><div class="table-contents"><table summary="mongodump-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">host</td><td align="left">string</td><td align="left">no</td><td align="left">localhost</td><td align="left">Hostname of your MongoDB-Server.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">Username for the MongoDB authentication.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">Password for the MongoDB authentication.</td></tr><tr><td align="left">authenticationDatabase</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">MongoDB database that holds the user credentials.</td></tr><tr><td align="left">databases</td><td align="left">string</td><td align="left">no</td><td align="left">all</td><td align="left">List of databases you want to backup, all by default.</td></tr><tr><td align="left">excludeCollections</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">List of collections you don't want to backup.</td></tr><tr><td align="left">excludeCollectionsWithPrefix</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">List of collection prefixes to exclude matching collections from backup.</td></tr><tr><td align="left">pathToMongodump</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom mongodump executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.mongodump.example.xml"></a><p class="title"><strong>Example 5.5: mongodump XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source mongodump --&gt;
+&lt;source type="mongodump"&gt;
+  &lt;option name="databases" value="myDatabase"/&gt;
+  &lt;option name="user" value="user.name"/&gt;
+  &lt;option name="password" value="topsecret"/&gt;
+  &lt;option name="excludeCollections" value="collectionFoo,collectionBar"/&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.mongodump.example.json"></a><p class="title"><strong>Example 5.6: mongodump JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "mongodump",
+  "options": {
+    "databases": "myDatabase",
+    "user": "user.name",
+    "password": "topsecret",
+    "excludeCollections": "collectionFoo,collectionBar"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.mysqldump"></a>MySQL - mysqldump</h2></div></div></div><a id="id2121" class="indexterm"></a><a id="id2123" class="indexterm"></a><p>
+      Backup a MySQL database with mysqldump.
+    </p><div class="table"><a id="source.tables.options.mysqldump"></a><p class="title"><strong>Table 5.5. mysqldump-Options</strong></p><div class="table-contents"><table summary="mysqldump-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">host</td><td align="left">string</td><td align="left">no</td><td align="left">localhost</td><td align="left">Hostname of your MySQL-Server.</td></tr><tr><td align="left">port</td><td align="left">integer</td><td align="left">no</td><td align="left">null</td><td align="left">Port of your MySQL-Server.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">Username for the MySQL authentication.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">Password for the MySQL authentication.</td></tr><tr><td align="left">databases</td><td align="left">string</td><td align="left">no</td><td align="left">all</td><td align="left">List of databases you want to backup, all by default.</td></tr><tr><td align="left">ignoreTables</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">List of tables you don't want to backup.</td></tr><tr><td align="left">filePerTable</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">Create directory with separate files for each table.</td></tr><tr><td align="left">structureOnly</td><td align="left">string</td><td align="left">no</td><td align="left">null</td><td align="left">List of tables where only the table structure will be stored. Can not be used with <span class="emphasis"><em>filePerTable</em></span></td></tr><tr><td align="left">hexBlob</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">Use the --hex-blob option to dump blog fields in hex.</td></tr><tr><td align="left">lockTables</td><td align="left">true | false</td><td align="left">no</td><td align="left">null</td><td align="left">Use the --lock-tables option to lock tables during the dump.</td></tr><tr><td align="left">singleTransaction</td><td align="left">true | false</td><td align="left">no</td><td align="left">null</td><td align="left">Use the --single-transaction option to add BEGIN SQL statement before dumping data from server.</td></tr><tr><td align="left">extendedInsert</td><td align="left">true | false</td><td align="left">no</td><td align="left">false</td><td align="left">Use multiple-row INSERT syntax. This results in a smaller dump file and speeds up inserts when the file is reloaded.</td></tr><tr><td align="left">pathToMysqldump</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom mysqldump executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.mysqldump.example.xml"></a><p class="title"><strong>Example 5.7: mysqldump XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source mysqldump --&gt;
+&lt;source type="mysqldump"&gt;
+  &lt;option name="databases" value="myDatabase"/&gt;
+  &lt;option name="user" value="user.name"/&gt;
+  &lt;option name="password" value="topsecret"/&gt;
+  &lt;option name="ignoreTable" value="tableFoo,tableBar"/&gt;
+  &lt;option name="structureOnly" value="logTable1,logTable2"/&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.mysqldump.example.json"></a><p class="title"><strong>Example 5.8: mysqldump JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "mysqldump",
+  "options": {
+    "databases": "myDatabase",
+    "user": "user.name",
+    "password": "topsecret",
+    "ignoreTable": "tableFoo,tableBar",
+    "structureOnly": "logTable1,logTable2"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.xtrabackup"></a>MySQL - xtrabackup</h2></div></div></div><a id="id2223" class="indexterm"></a><a id="id2225" class="indexterm"></a><p>
+      Backup a MySQL database with percona xtrabackup.
+    </p><div class="table"><a id="source.tables.options.xtrabackup"></a><p class="title"><strong>Table 5.6. xtrabackup-options</strong></p><div class="table-contents"><table summary="xtrabackup-options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">dataDir</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">MySQL data directory.</td></tr><tr><td align="left">host</td><td align="left">string</td><td align="left">no</td><td align="left">localhost</td><td align="left">Host to connect to.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">User to connect with.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">false</td><td align="left">Password to authenticate the user.</td></tr><tr><td align="left">databases</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">List of databases to backup, all by default.</td></tr><tr><td align="left">include</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Pattern to include databases and tables to the backup e.g. <code class="literal">^mydatabase[.]mytable</code>.</td></tr><tr><td align="left">pathToXtraBackup</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom xtrabackup executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.xtrabackup.example.xml"></a><p class="title"><strong>Example 5.9: xtrabackup XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source xtrabackup --&gt;
+&lt;source type="xtrabackup"&gt;
+  &lt;option name="databases" value="myDB1,myDB2" /&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.xtrabackup.example.json"></a><p class="title"><strong>Example 5.10: xtrabackup JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "xtrabackup",
+  "options": {
+    "databases": "myDB1,myDB2"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.pgdump"></a>pgdump</h2></div></div></div><a id="id2289" class="indexterm"></a><p>Backup PostgresSQL databases using the pg_dump command line tool.</p><div class="table"><a id="source.pgdump.options"></a><p class="title"><strong>Table 5.7. pgdump-Options</strong></p><div class="table-contents"><table summary="pgdump-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">host</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Host to connect to.</td></tr><tr><td align="left">port</td><td align="left">integer</td><td align="left">no</td><td align="left">-</td><td align="left">Port to use to connect to the PostgresSQL server.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">User to use to connect.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Password to use to authenticate.</td></tr><tr><td align="left">database</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Database to backup.</td></tr><tr><td align="left">schemaOnly</td><td align="left">bool</td><td align="left">no</td><td align="left">false</td><td align="left">Dump only schema information.</td></tr><tr><td align="left">dataOnly</td><td align="left">string</td><td align="left">no</td><td align="left">false</td><td align="left">Dump no schema information.</td></tr><tr><td align="left">schemas</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">List of schemas to dump, separated by comma.</td></tr><tr><td align="left">excludeSchemas</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">List of schemas to exclude, separated by comma.</td></tr><tr><td align="left">tables</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">List of tables to backup, separated by comma.</td></tr><tr><td align="left">excludeTables</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">List of tables to exclude, separated by comma.</td></tr><tr><td align="left">excludeTableData</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">List of tables where data is not dumped, separated by comma.</td></tr><tr><td align="left">noPermissions</td><td align="left">bool</td><td align="left">no</td><td align="left">false</td><td align="left">Don't dump any permission schemas.</td></tr><tr><td align="left">noOwner</td><td align="left">bool</td><td align="left">no</td><td align="left">false</td><td align="left">Don't dump any owner changing statements.</td></tr><tr><td align="left">format</td><td align="left">string</td><td align="left">no</td><td align="left">plain</td><td align="left">Dump format, plain, custom, directory.</td></tr><tr><td align="left">encoding</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Set the dump encoding.</td></tr><tr><td align="left">pathToPgdump</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom pgdump executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.pgdump.example.xml"></a><p class="title"><strong>Example 5.11: pgdump XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source pgdump --&gt;
+&lt;source type="pgdump"&gt;
+  &lt;option name="database" value="myDstabase"/&gt;
+  &lt;option name="user" value="myName"/&gt;
+  &lt;option name="password" value="topSecret"/&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.pgdump.example.json"></a><p class="title"><strong>Example 5.12: pgdump JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "pgdump",
+  "options": {
+    "database": "myDatabase",
+    "user": "myName",
+    "password": "topSecret",
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.redis"></a>redis</h2></div></div></div><a id="id2412" class="indexterm"></a><p>
+      Backup redis data structure store using redis-cli.
+    </p><div class="table"><a id="source.tables.options.redis"></a><p class="title"><strong>Table 5.8. redis-Options</strong></p><div class="table-contents"><table summary="redis-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">pathToRedisData</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Path to the redis data .rdb file.</td></tr><tr><td align="left">port</td><td align="left">integer</td><td align="left">no</td><td align="left">6379</td><td align="left">Port to use to connect to the redis server.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Password to use to authenticate.</td></tr><tr><td align="left">pathToRedisCli</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom redis-cli executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.redis.example.xml"></a><p class="title"><strong>Example 5.13: redis XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source redis --&gt;
+&lt;source type="redis"&gt;
+  &lt;option name="pathToRedisData" value="/var/lib/redis/6379/dump.rdb"/&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.redis.example.json"></a><p class="title"><strong>Example 5.14: redis JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "redis",
+  "options": {
+    "pathToRedisData": "/var/lib/redis/6379/dump.rdb"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.rsync"></a>rsync</h2></div></div></div><a id="id2457" class="indexterm"></a><p>
+      Backup files via the rsync command line tool.
+    </p><div class="table"><a id="source.tables.options.rsync"></a><p class="title"><strong>Table 5.9. rsync-Options</strong></p><div class="table-contents"><table summary="rsync-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">path</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Path to file/directory to sync.</td></tr><tr><td align="left">host</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Host to connecto to.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">User to use to authenticate.</td></tr><tr><td align="left">delete</td><td align="left">string</td><td align="left">no</td><td align="left">false</td><td align="left">Remove deleted files locally as well.</td></tr><tr><td align="left">isDirSync</td><td align="left">string</td><td align="left">no</td><td align="left">false</td><td align="left">Keep the directory instead of archiving it at every phpbu execution.</td></tr><tr><td align="left">pathToRsync</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom rsync executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.rsync.example.xml"></a><p class="title"><strong>Example 5.15: rsync XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source rsync --&gt;
+&lt;source type="rsync"&gt;
+  &lt;option name="path" value="/tmp/foo"/&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.rsync.example.json"></a><p class="title"><strong>Example 5.16: rsync JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "rsync",
+  "options": {
+    "path": "/tmp/foo"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="source.tar"></a>Directories</h2></div></div></div><a id="id2514" class="indexterm"></a><p>
+      Backup directories using tar.
+    </p><div class="table"><a id="source.tables.options.tar"></a><p class="title"><strong>Table 5.10. tar-Options</strong></p><div class="table-contents"><table summary="tar-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">path</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Path to the source directory.</td></tr><tr><td align="left">exclude</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Comma separated list of paths to exclude.</td></tr><tr><td align="left">ignoreFailedRead</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Ignore changing source directory.</td></tr><tr><td align="left">compressProgram</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Set custom compression program f.e. lbzip2.</td></tr><tr><td align="left">removeSourceDir</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Remove the directory after compression.</td></tr><tr><td align="left">throttle</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Throttle IO throughput via 'pv' (Linux/Unix only).</td></tr><tr><td align="left">pathToTar</td><td align="left">string</td><td align="left">no</td><td align="left"> </td><td align="left">Custom tar executable location.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="source.tar.example.xml"></a><p class="title"><strong>Example 5.17: tar XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source tar --&gt;
+&lt;source type="tar"&gt;
+  &lt;option name="path" value="htdocs/uploads"/&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="source.tar.example.json"></a><p class="title"><strong>Example 5.18: tar JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "tar",
+  "options": {
+    "path": "htdocs/uploads"
+  }
+}</pre></div></div><br class="example-break" /><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="source.tar.throttling"></a>IO Throttling</h3></div></div></div><p>
+        If you are experiencing high CPU load during your backups with <span class="emphasis"><em>tar</em></span>
+        you can throttle the IO to take load of your CPU
+      </p><div class="example"><a id="source.tar.example.xml.throttle"></a><p class="title"><strong>Example 5.19: Throttling XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- source tar --&gt;
+&lt;source type="tar"&gt;
+  &lt;option name="path" value="htdocs/uploads"/&gt;
+  &lt;option name="throttle" value="5m"/&gt;
+&lt;/source&gt;</pre></div></div><br class="example-break" /><p>
+        With a configuration like in the example above you make sure that you only write 5 Megabytes each second.
+        This way you backup may take longer, but your CPU is able to handle other stuff as well.
+      </p><p>
+        This is done via the CLI tool <span class="emphasis"><em>pv</em></span>. To you this feature you must have <span class="emphasis"><em>pv</em></span>
+        installed on your server. If you are using phpbu on Windows, you can't use this feature.
+      </p><p>
+        For more information on <span class="emphasis"><em>pv</em></span> have a look <a class="ulink" href="https://packages.debian.org/de/stable/pv" target="_top">here</a>
+      </p></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="check"></a>Chapter 6. Backup Validation</h1></div></div></div><a id="id2591" class="indexterm"></a><a id="id2593" class="indexterm"></a><p>
+    You can validate your backup after creation with some simple Checks.
+  </p><div class="table"><a id="check.tables.available-checks"></a><p class="title"><strong>Table 6.1. Available checks:</strong></p><div class="table-contents"><table summary="Available checks:" border="1"><colgroup><col /><col /></colgroup><thead><tr><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">SizeMin</td><td align="left">Checks if the backups is at least as big as the configured size.</td></tr><tr><td align="left">SizeDiffPreviousPercent</td><td align="left">Checks if your backup doesn't differ more then a configured value from the previous backup.</td></tr></tbody></table></div></div><br class="table-break" /><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="check.sizemin"></a>Minimal size</h2></div></div></div><div class="example"><a id="check.sizemin.example.xml"></a><p class="title"><strong>Example 6.1: SizeMin XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- check min size --&gt;
+&lt;check type="SizeMin" value="30M"/&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="check.sizemin.example.json"></a><p class="title"><strong>Example 6.2: SizeMin JSON example</strong></p><div class="example-contents"><pre class="programlisting">
+{"type": "SizeMin", "value": "30M"}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="check.sizediff"></a>Compare to previous Backups</h2></div></div></div><div class="example"><a id="check.sizediff.example.xml"></a><p class="title"><strong>Example 6.3: SizeDiffPreviousPercent XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- check size against previous backups --&gt;
+&lt;check type="SizeDiffPreviousPercent" value="10"/&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="check.sizediff.example.json"></a><p class="title"><strong>Example 6.4: SizeDiffPreviousPercent JSON example</strong></p><div class="example-contents"><pre class="programlisting">
+{"type": "SizeDiffPreviousPercent", "value": "10"}</pre></div></div><br class="example-break" /></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="crypt"></a>Chapter 7. Encryption</h1></div></div></div><a id="id2627" class="indexterm"></a><p>
+    PHPBU can encrypt your backup using <code class="literal">openssl</code> or <code class="literal">mcrypt</code>.
+  </p><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Hint</h3><p>
+      If the choice is yours, I strongly recommend using openssl.
+      <a class="ulink" href="https://paragonie.com/blog/2015/05/if-you-re-typing-word-mcrypt-into-your-code-you-re-doing-it-wrong" target="_top">Here</a>
+      is a good article explaining why.
+    </p></div><div class="table"><a id="crypt.tables.available-crypts"></a><p class="title"><strong>Table 7.1. Available crypts:</strong></p><div class="table-contents"><table summary="Available crypts:" border="1"><colgroup><col /><col /></colgroup><thead><tr><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">mcrypt</td><td align="left">Encrypts your backup with the mcrypt command line tool.</td></tr><tr><td align="left">openssl</td><td align="left">Encrypts your backup with the openssl command line tool.</td></tr></tbody></table></div></div><br class="table-break" /><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="crypt.mcrypt"></a>mcrypt</h2></div></div></div><a id="id2651" class="indexterm"></a><div class="table"><a id="crypt.tables.options.mcrypt"></a><p class="title"><strong>Table 7.2. mcrypt options</strong></p><div class="table-contents"><table summary="mcrypt options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">algorithm</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Algorithm to use to encrypt the backup.</td></tr><tr><td align="left">key</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Secret key to use for encryption.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="crypt.mcrypt.example.xml"></a><p class="title"><strong>Example 7.1: mcrypt XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- encryption --&gt;
+&lt;crypt type="mcrypt"&gt;
+  &lt;option name="algorithm" value="blowfish"/&gt;
+  &lt;option name="key" value="mySecretKey"/&gt;
+&lt;/crypt&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="crypt.mcrypt.example.json"></a><p class="title"><strong>Example 7.2: mcrypt JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "mcrypt",
+  "options": {
+    "algorithm": "blowfish",
+    "key": "mySecretKey"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="crypt.openssl"></a>openssl</h2></div></div></div><a id="id2683" class="indexterm"></a><p>
+      Please be sure to use <span class="emphasis"><em>only</em></span> <code class="literal">password</code> or <code class="literal">certFile</code>.
+    </p><div class="table"><a id="crypt.tables.options.openssl"></a><p class="title"><strong>Table 7.3. openssl options</strong></p><div class="table-contents"><table summary="openssl options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">password</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Encrypt backup with 'openssl enc -pass...'.</td></tr><tr><td align="left">certFile</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Encrypt backup with 'openssl smime ... myCert.pem'.</td></tr><tr><td align="left">algorithm</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">
+              Algorithm to use to encrypt the backup.
+              <span class="emphasis"><em>Attention</em></span> you have to specify different algorithm names
+              for using <code class="literal">password</code> and using a <code class="literal">cert file</code>.
+            </td></tr><tr><td align="left">keepUncrypted</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Don't remove the uncrypted backup.</td></tr><tr><td align="left">pathToOpenSSL</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Used to specify a special path to the openssl command.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="crypt.openssl.example.xml.password"></a><p class="title"><strong>Example 7.3: openssl XML example using password encryption</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- encryption --&gt;
+&lt;crypt type="openssl"&gt;
+  &lt;option name="password" value="mySecretPassword"/&gt;
+  &lt;option name="algorithm" value="aes-256-cbc"/&gt;
+&lt;/crypt&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="crypt.openssl.example.json.password"></a><p class="title"><strong>Example 7.4: openssl JSON example using password encryption</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "openssl",
+  "options": {
+    "password": "mySecretPassword",
+    "algorithm": "aes-256-cbc"
+  }
+}</pre></div></div><br class="example-break" /><div class="example"><a id="crypt.openssl.example.xml.cert"></a><p class="title"><strong>Example 7.5: openssl XML example using SSL cert encryption</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- encryption --&gt;
+&lt;crypt type="openssl"&gt;
+  &lt;option name="certFile" value="ssl/MyCert.pem"/&gt;
+  &lt;option name="algorithm" value="aes256"/&gt;
+&lt;/crypt&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="crypt.openssl.example.json.cert"></a><p class="title"><strong>Example 7.6: openssl JSON example using SSL cert encryption</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "openssl",
+  "options": {
+    "certFile": "ssl/MyCert.pem",
+    "algorithm": "aes256"
+  }
+}</pre></div></div><br class="example-break" /><h3><a id="id2746"></a>Create a private key and a certificate pem file</h3><p>
+      To encrypt your backups with a cert file
+      you have to create a <span class="emphasis"><em>private key</em></span> and a <span class="emphasis"><em>certificate pem file</em></span>.
+    </p><pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>openssl req -x509 -new -days 100000 -key private.pem -out certificate.pem</code></strong></pre><p>
+      The created <code class="literal">certificate.pem</code> is used to encrypt your backups
+      and should be referenced in your phpbu configuration as <code class="literal">certFile</code>.
+      The <code class="literal">private.pem</code> file is used to decrypt your backups.
+    </p><h3><a id="id2757"></a>Decrypt</h3><p>Decrypt a cert file encoded backup</p><pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>openssl smime -decrypt -aes256 -inform DER \
+  -in backup.tar.bz2.enc \
+  -out backup.tar.bz2 \
+  -inkey private.pem</code></strong></pre><p>Decrypt a password encoded backup</p><pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>openssl enc -d -a -aes-256-cbc \
+  -in backup.tar.bz2.enc \
+  -out backup.tar.bz2 \
+  -pass pass:mySecretPassword</code></strong></pre></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="sync"></a>Chapter 8. Sync Backups</h1></div></div></div><a id="id2766" class="indexterm"></a><p>
+    It's best practice to not store all you backups locally or not only storing them locally.
+    With PHPBU you can copy your backups to different locations.
+  </p><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>
+      If you are syncing your backup to a cloud service it's advised to <a class="link" href="#crypt" title="Chapter 7. Encryption">encrypt</a> your backup
+      beforehand. Especially if your backup contains
+      <a class="ulink" href="https://en.wikipedia.org/wiki/Personally_identifiable_information" target="_top">personal identifiable information</a>.
+    </p></div><div class="table"><a id="sync.tables.available-syncs"></a><p class="title"><strong>Table 8.1. Supported types of syncs:</strong></p><div class="table-contents"><table summary="Supported types of syncs:" border="1"><colgroup><col /><col /></colgroup><thead><tr><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">amazon</td><td align="left">Copy your backup to your amazon s3 account.</td></tr><tr><td align="left">copy.com</td><td align="left">Copy your backup to a copy account.</td></tr><tr><td align="left">dropbox</td><td align="left">Copy your backup to a dropbox account.</td></tr><tr><td align="left">rsync</td><td align="left">Sync your backups with rsync.</td></tr><tr><td align="left">sftp</td><td align="left">Copy your backup to a server via SFTP.</td></tr><tr><td align="left">SoftLayer Object Storage</td><td align="left">Sync your backup to a Softlayer Object Storage account.</td></tr></tbody></table></div></div><br class="table-break" /><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sync.amazon"></a>Amazon S3</h2></div></div></div><a id="id2801" class="indexterm"></a><p>
+      Sync your backup to an amazon S3 account.
+    </p><p>
+      If you are not using the PHAR Version you have to require <code class="literal">"aws/aws-sdk-php": "2.7.*"</code> in your composer file.
+    </p><div class="table"><a id="sync.tables.options.amazon"></a><p class="title"><strong>Table 8.2. amazons3-Options</strong></p><div class="table-contents"><table summary="amazons3-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">key</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The amazon s3 key.</td></tr><tr><td align="left">secret</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The amazon S3 secret.</td></tr><tr><td align="left">bucket</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">A bucket where to store the backup.</td></tr><tr><td align="left">region</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The region where the bucket is located e.g. 'eu-central-1'.</td></tr><tr><td align="left">path</td><td align="left">string</td><td align="left">no</td><td align="left">/</td><td align="left">Path where to store the backup in your bucket.</td></tr><tr><td align="left">useMultiPartUpload</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Use Amazon S3 MultiPartUpload functionality.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="sync.amazons3.example.xml"></a><p class="title"><strong>Example 8.1: amazons3 XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- sync amazon s3 --&gt;
+&lt;sync type="amazons3"&gt;
+  &lt;option name="key" value="myAwsKey"/&gt;
+  &lt;option name="secret" value="myAwsSecret"/&gt;
+  &lt;option name="bucket" value="backup"/&gt;
+  &lt;option name="region" value="eu-central-1"/&gt;
+  &lt;option name="path" value="/some/dir"/&gt;
+&lt;/sync&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="sync.amazons3.example.json"></a><p class="title"><strong>Example 8.2: amazons3 JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "amazons3",
+  "options": {
+    "key": "myAwsKey",
+    "secret": "myAwsSecret",
+    "bucket": "backup",
+    "region": "eu-central-1",
+    "path": "/some/dir",
+    "useMultiPartUpload": "true"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sync.dropbox"></a>Dropbox</h2></div></div></div><a id="id2860" class="indexterm"></a><p>
+      Sync your backup to a dropbox account.
+    </p><p>
+      If you are not using the PHAR Version you have to require
+      <code class="literal">"dropbox/dropbox-sdk": "1.1.*"</code> in your composer file.
+    </p><div class="table"><a id="sync.tables.options.dropbox"></a><p class="title"><strong>Table 8.3. dropbox-Options</strong></p><div class="table-contents"><table summary="dropbox-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">token</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">
+              The dropbox authentication token.
+              Go to <a class="ulink" href="https://www.dropbox.com/developers/apps" target="_top">www.dropbox.com/developers/apps</a>
+              Create your app
+              Choose:
+              dropbox api app
+              files and datastore
+              yes
+              provide some app name "my-dropbox-app"
+              generate access token to authenticate connection to your dropbox
+            </td></tr><tr><td align="left">path</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Directory where to store the backup in your dropbox account.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="sync.dropbox.example.xml"></a><p class="title"><strong>Example 8.3: dropbox XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- sync dropbox --&gt;
+&lt;sync type="dropbox"&gt;
+  &lt;option name="token" value="myCrazyLongApiTokenThatIGotFromDropbox"/&gt;
+  &lt;option name="path" value="/some/dir"/&gt;
+&lt;/sync&gt;
+&lt;/section&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="sync.dropbox.example.json"></a><p class="title"><strong>Example 8.4: dropbox JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "dropbox",
+  "options": {
+    "token": "myCrazyLongApiTokenThatIGotFromDropbox",
+    "path": "/some/dir"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sync.rsync"></a>Rsync</h2></div></div></div><a id="id2896" class="indexterm"></a><p>
+      Sync your backup via the rsync command.
+    </p><div class="table"><a id="sync.tables.options.rsync"></a><p class="title"><strong>Table 8.4. rsync-Options</strong></p><div class="table-contents"><table summary="rsync-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">path</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The remote path where your backups should be synced to.</td></tr><tr><td align="left">host</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The remote host where your backups should be synced to.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">
+              The user to connect to the remote host.
+              Make sure the user is able to connect without entering a password
+              otherwise you get prompted for a password while executing phpbu.
+            </td></tr><tr><td align="left">dirsync</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Sync the target directory instead of syncing only the target file.</td></tr><tr><td align="left">delete</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">Add the --delete option to the rsync call, so locally deleted files will be deleted remotely as well.</td></tr><tr><td align="left">exclude</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">List of files to exclude from the sync separated by ":" e.g. "*.suffix:foo.bar".</td></tr><tr><td align="left">args</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">
+              Advanced mode to use completely custom options. "rsync {args}".
+              WARNING: phpbu is not escaping this in any way so use with caution!
+              Use %TARGET_FILE% and %TARGET_DIR% as reference to your created backup.
+            </td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="sync.rsync.example.xml"></a><p class="title"><strong>Example 8.5: rsync XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- sync rsync --&gt;
+&lt;sync type="rsync"&gt;
+  &lt;option name="path" value="/backup/some/path"/&gt;
+  &lt;option name="dirsync" value="true"/&gt;
+  &lt;option name="host" value="backup.example.com"/&gt;
+  &lt;option name="user" value="backup"/&gt;
+&lt;/sync&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="sync.rsync.example.json"></a><p class="title"><strong>Example 8.6: rsync JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "rsync",
+  "options": {
+    "path": "/backup/some/path",
+    "dirsync": "true",
+    "host": "backup.example.com",
+    "user": "backup"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sync.sftp"></a>SFTP / FTP</h2></div></div></div><p>
+      Copy your backup to another server via SFTP or FTP.
+    </p><p>
+      If you want to use SFTP and you are not using the PHAR version you have to require
+      <code class="literal">"phpseclib/phpseclib": "2.0.*@dev"</code> in your composer file.
+      For this to work you have to set the <code class="literal">minimum-stability</code> to <code class="literal">dev</code>.
+    </p><p>
+      If you want to use the FTP-Sync your PHP has to be compiled with <code class="literal">--enable-ftp</code>.
+    </p><div class="table"><a id="sync.tables.options.sftp"></a><p class="title"><strong>Table 8.5. (s)ftp-Options</strong></p><div class="table-contents"><table summary="(s)ftp-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">host</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The host you want do copy your backups to.</td></tr><tr><td align="left">user</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The user you want to connect with.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">The password to authenticate the user.</td></tr><tr><td align="left">path</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The remote path where to copy the backup.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="sync.sftp.example.xml"></a><p class="title"><strong>Example 8.7: sftp XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- sync sftp --&gt;
+&lt;sync type="sftp"&gt;
+  &lt;option name="host" value="backup.example.com"/&gt;
+  &lt;option name="user" value="user.name"/&gt;
+  &lt;option name="password" value="topsecret"/&gt;
+  &lt;option name="path" value="backup/someName"/&gt;
+&lt;/sync&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="sync.sftp.example.json"></a><p class="title"><strong>Example 8.8: sftp JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "sftp",
+  "options": {
+    "host": "backup.example.com",
+    "user": "user.name",
+    "password": "topsecret",
+    "path": "backup/someName"
+  }
+}</pre></div></div><br class="example-break" /><p>
+      If you want to use plain FTP just use <code class="literal">ftp</code> as type, options stay the same.
+    </p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sync.softlayer"></a>Softlayer Object Storage</h2></div></div></div><p>
+      Sync your backup to a Softlayer account.
+    </p><p>
+      If you are not using the PHAR Version you have to require
+      <code class="literal">"softlayer/objectstorage": "dev-master"</code> in your composer file.
+      For this to work you have to set the <code class="literal">minimum-stability</code> to <code class="literal">dev</code>.
+    </p><div class="table"><a id="sync.tables.options.softlayer"></a><p class="title"><strong>Table 8.6. softlayer-Options</strong></p><div class="table-contents"><table summary="softlayer-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">user</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The user you want to connect with.</td></tr><tr><td align="left">secret</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">The api key to authenticate the user.</td></tr><tr><td align="left">host</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The host you want do copy your backups to.</td></tr><tr><td align="left">container</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The Object Storage Container where to put the backup.</td></tr><tr><td align="left">path</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The remote path where to copy the backup.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="sync.softlayer.example.xml"></a><p class="title"><strong>Example 8.9: softlayer XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- sync softlayer object storage --&gt;
+&lt;sync type="softlayer"&gt;
+  &lt;option name="user" value="user.name"/&gt;
+  &lt;option name="secret" value="topsecret"/&gt;
+  &lt;option name="host" value="some.softlayer.domain.com"/&gt;
+  &lt;option name="container" value="backup"/&gt;
+  &lt;option name="path" value="/backup/someName"/&gt;
+&lt;/sync&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="sync.softlayer.example.json"></a><p class="title"><strong>Example 8.10: softlayer JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "softlayer",
+  "options": {
+    "user": "user.name",
+    "secret": "topsecret",
+    "host": "some.softlayer.domain.com",
+    "container": "backup",
+    "path": "/backup/someName"
+  }
+}</pre></div></div><br class="example-break" /></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="cleanup"></a>Chapter 9. Cleanup backups</h1></div></div></div><a id="id3065" class="indexterm"></a><p>
+        You can remove old backups to limit the space your backups consume on your local hard drive. It's important to note,
+        that only <span class="emphasis"><em>local</em></span> backups will be cleaned up. So whatever kind of <code class="literal">Sync</code>
+        you are using. <code class="literal">Cleanup</code> won't touch your remote files.
+    </p><p>
+        If you want to remove your synced backups as well, currently the only way to do this is to use the
+        <a class="link" href="#sync.rsync" title="Rsync">Rsync</a> sync with it's <code class="literal">delete</code> option.
+    </p><div class="table"><a id="cleanup.tables.available-cleanups"></a><p class="title"><strong>Table 9.1. Supported types of cleanups:</strong></p><div class="table-contents"><table summary="Supported types of cleanups:" border="1"><colgroup><col /><col /></colgroup><thead><tr><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">Capacity</td><td align="left">
+            Define the size your backups should occupy.
+            If your backups start to exceed this value PHPBU will start to delete backups,
+            starting with the oldest ones.
+          </td></tr><tr><td align="left">Outdated</td><td align="left">
+            Remove backups older than a configured time-value.
+            For example "2W" to delete all backup older than two weeks.
+          </td></tr><tr><td align="left">Quantity</td><td align="left">Keep only a configured amount of backups.</td></tr><tr><td align="left">Stepwise</td><td align="left">
+            Keep different amount of backups for different periods of time.
+            For example keep all backups you made for the last 3 days, keep one for each week for the last 4 weeks,
+            keep one for each month for the last 6 month and one for every year for at least 3 years.
+          </td></tr></tbody></table></div></div><br class="table-break" /><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="cleanup.capacity"></a>Cleanup by capacity</h2></div></div></div><p>
+      Remove oldest backups if all created backups exceed the configured limit.
+    </p><div class="table"><a id="cleanup.tables.options.capacity"></a><p class="title"><strong>Table 9.2. Capacity-Options</strong></p><div class="table-contents"><table summary="Capacity-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">size</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Space your backups are allowed to occupy. e.g. 500M for 500 Megabytes or 1G for one Gigabyte.</td></tr><tr><td align="left">deleteTarget</td><td align="left">boolean</td><td align="left">no</td><td align="left">false</td><td align="left">
+              If you don't want to keep any backups locally,
+              just specify a size of "0B", set this to "true"
+              and even the current backup will be deleted.
+            </td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="cleanup.capacity.example.xml"></a><p class="title"><strong>Example 9.1: capacity XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- cleanup capacity: keep 250 Megabytes of backups --&gt;
+&lt;cleanup type="capacity"&gt;
+  &lt;option name="size" value="250M"/&gt;
+  &lt;option name="deleteTarget" value="false"/&gt;
+&lt;/cleanup&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="cleanup.capacity.example.json"></a><p class="title"><strong>Example 9.2: capacity JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "capacity",
+  "options": {
+    "size": "250M",
+    "deleteTarget": "false"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="cleanup.outdated"></a>Cleanup by date</h2></div></div></div><p>
+      Remove backups that are older than a configured value.
+    </p><div class="table"><a id="cleanup.tables.options.outdated"></a><p class="title"><strong>Table 9.3. Outdated-Options</strong></p><div class="table-contents"><table summary="Outdated-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">older</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">Time to keep backups. e.g. 1m for one month or 20d for twenty days.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="cleanup.outdated.example.xml"></a><p class="title"><strong>Example 9.3: outdated XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- cleanup outdated: keep backups for 2 weeks --&gt;
+&lt;cleanup type="outdated"&gt;
+  &lt;option name="older" value="2W"/&gt;
+&lt;/cleanup&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="cleanup.outdated.example.json"></a><p class="title"><strong>Example 9.4: outdated JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "Outdated",
+  "options": {
+    "older": "2W"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="cleanup.quantity"></a>Cleanup by quantity</h2></div></div></div><p>
+      Keep only a configured amount of backups.
+    </p><div class="table"><a id="cleanup.tables.options.quantity"></a><p class="title"><strong>Table 9.4. Quantity-Options</strong></p><div class="table-contents"><table summary="Quantity-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">amount</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">The amount of backups to keep.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="cleanup.quantity.example.xml"></a><p class="title"><strong>Example 9.5: quantity XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- cleanup quantity: keep the last 20 backups --&gt;
+&lt;cleanup type="quantity"&gt;
+  &lt;option name="amount" value="20"/&gt;
+&lt;/cleanup&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="cleanup.quantity.example.json"></a><p class="title"><strong>Example 9.6: quantity JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "quantity",
+  "options": {
+    "amount": "20"
+  }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="cleanup.stepwise"></a>Cleanup stepwise</h2></div></div></div><p>
+      Keep more backups in the recent past and keep less backups for the distant past. The following table illustrates
+      how this works.
+    </p><pre class="programlisting">        | for x days  | for x days        | for x weeks           | for x month keep   |
+        | keep all    | keep one per day  | keep one per week     | keep one per month |
+--------+-------------+-------------------+-----------------------+--------------------+-
+backups | ............| . . . . . . . . . | .       .       .     | .                . | </pre><p>
+      So if you start to backup now your amount of backups will grow for the configured years to keep at least one backup.
+      But by then the amount of your backups will be constantly the same.
+    </p><div class="table"><a id="cleanup.tables.options.stepwise"></a><p class="title"><strong>Table 9.5. Capacity-Options</strong></p><div class="table-contents"><table summary="Capacity-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">daysToKeepAll</td><td align="left">integer</td><td align="left">yes</td><td align="left">0</td><td align="left">Days to keep all backups you made.</td></tr><tr><td align="left">daysToKeepDaily</td><td align="left">integer</td><td align="left">yes</td><td align="left">0</td><td align="left">Days to keep at least one backup you made a day.</td></tr><tr><td align="left">weeksToKeepWeekly</td><td align="left">integer</td><td align="left">yes</td><td align="left">0</td><td align="left">Amount of weeks to keep at least one backup for each week.</td></tr><tr><td align="left">monthToKeepMonthly</td><td align="left">integer</td><td align="left">yes</td><td align="left">0</td><td align="left">Amount of month to keep at least one backup for each month.</td></tr><tr><td align="left">yearsToKeepYearly</td><td align="left">integer</td><td align="left">yes</td><td align="left">0</td><td align="left">Amount of years to keep at least one backup for each year.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="cleanup.stepwise.example.xml"></a><p class="title"><strong>Example 9.7: stepwise XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- cleanup stepwise --&gt;
+&lt;cleanup type="stepwise"&gt;
+  &lt;option name="daysToKeepAll" value="2" /&gt;
+  &lt;option name="daysToKeepDaily" value="5" /&gt;
+  &lt;option name="weeksToKeepWeekly" value="3" /&gt;
+  &lt;option name="monthToKeepMonthly" value="4" /&gt;
+  &lt;option name="yearsToKeepYearly" value="10" /&gt;
+&lt;/cleanup&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="cleanup.stepwise.example.json"></a><p class="title"><strong>Example 9.8: stepwise JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "stepwise",
+  "options": {
+    "daysToKeepAll": "2",
+    "daysToKeepDaily": "5",
+    "weeksToKeepWeekly": "3",
+    "monthToKeepMonthly": "4",
+    "yearsToKeepYearly": "10"
+  }
+}</pre></div></div><br class="example-break" /></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="logging"></a>Chapter 10. Logging</h1></div></div></div><a id="id3231" class="indexterm"></a><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="logging.json"></a>JSON</h2></div></div></div><p>
+      You can create a simple json logfile with PHPBU's json logger.
+    </p><div class="example"><a id="logging.json.example.xml"></a><p class="title"><strong>Example 10.1: json XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- create a json logfile --&gt;
+&lt;log type="json" target="backup/log.json"/&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="logging.json.example.json"></a><p class="title"><strong>Example 10.2: json JSON example</strong></p><div class="example-contents"><pre class="programlisting">{"type": "json", "target": "backup/log.json"}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="logging.email"></a>E-Mail</h2></div></div></div><p>
+      PHPBU uses SwiftMailer to send backup reports to one or more configured E-Mail-Addresses.
+      If you just want to get notified if something went wrong,
+      you can use the <code class="literal">sendOnlyOnError</code> option to not send any E-Mail on a successful backup.
+    </p><div class="table"><a id="logging.tables.options.email"></a><p class="title"><strong>Table 10.1. Capacity-Options</strong></p><div class="table-contents"><table summary="Capacity-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">recipients</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">List of emails separated by semicolon.</td></tr><tr><td align="left">sendOnlyOnError</td><td align="left">string</td><td align="left">no</td><td align="left">false</td><td align="left">Sending reports only if something goes wrong.</td></tr><tr><td align="left">subject</td><td align="left">string</td><td align="left">no</td><td align="left">PHPBU Backup Report from $HOSTNAME</td><td align="left">E-Mail subject of the backup report.</td></tr><tr><td align="left">transport</td><td align="left">string</td><td align="left">yes</td><td align="left">-</td><td align="left">SwiftMailer Transport that's used to send the E-Mail (mail, sendmail, smtp, null).</td></tr><tr><td align="left">sender.mail</td><td align="left">string</td><td align="left">phpbu@hostname</td><td align="left">-</td><td align="left">The sender E-Mail-Address</td></tr><tr><td align="left">sender.name</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">The sender name.</td></tr><tr><td align="left">sender.name</td><td align="left">string</td><td align="left">no</td><td align="left">OS-User</td><td align="left">The sender name.</td></tr><tr><td align="left">sendmail options</td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr><tr><td align="left">sendmail.path</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Path to local sendmail binary.</td></tr><tr><td align="left">sendmail.options</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Sendmail options (e.g. -bs).</td></tr><tr><td align="left">SMTP options</td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr><tr><td align="left">smtp.port</td><td align="left">string</td><td align="left">no</td><td align="left">587</td><td align="left">Port to use to connect to SMTP server.</td></tr><tr><td align="left">smtp.host</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">SMTP hostname.</td></tr><tr><td align="left">smtp.username</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">The SMTP login.</td></tr><tr><td align="left">smtp.password</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">The SMTP password.</td></tr><tr><td align="left">smtp.encryption</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Type of encryption (e.g. ssl).</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="logging.mail.example.xml"></a><p class="title"><strong>Example 10.3: mail XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- use mail to keep up to date with you backup creation --&gt;
+&lt;log type="mail"&gt;
+  &lt;option name="transport" value="mail"/&gt;
+  &lt;option name="recipients" value="user.name@example.com"/&gt;
+&lt;/log&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="logging.mail.example.json"></a><p class="title"><strong>Example 10.4: mail JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "mail",
+  "options": {
+     "transport": "mail",
+     "recipients": "user.name@example.com"
+   }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="logging.webhook"></a>Webhook</h2></div></div></div><p>
+      You can call a webhook and phpbu will send report data to the webhook.
+    </p><div class="table"><a id="logging.tables.options.webhook"></a><p class="title"><strong>Table 10.2. Webhook-Options</strong></p><div class="table-contents"><table summary="Webhook-Options" border="1"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th align="left">Name</th><th align="left">Value</th><th align="left">Required</th><th align="left">Default</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">uri</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">URI to call</td></tr><tr><td align="left">username</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Basic auth user name.</td></tr><tr><td align="left">password</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">Basic auth password.</td></tr><tr><td align="left">method</td><td align="left">string</td><td align="left">no</td><td align="left">get</td><td align="left">HTTP request method (get, post).</td></tr><tr><td align="left">contentType</td><td align="left">string</td><td align="left">no</td><td align="left">application/json</td><td align="left">Post method request body content type.</td></tr><tr><td align="left">template</td><td align="left">string</td><td align="left">no</td><td align="left">-</td><td align="left">A template to use for the request body For example if you want to you xml over json.</td></tr></tbody></table></div></div><br class="table-break" /><div class="example"><a id="logging.webhook.example.xml"></a><p class="title"><strong>Example 10.5: webhook XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;!-- call webhook --&gt;
+&lt;log type="webhook"&gt;
+  &lt;option name="uri" value="http://example.com/hook"/&gt;
+&lt;/log&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="logging.webhook.example.json"></a><p class="title"><strong>Example 10.6: webhook JSON example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "type": "webhook",
+  "options": {
+     "transport": "uri",
+     "recipients": "http://example.com/hook"
+   }
+}</pre></div></div><br class="example-break" /><p>
+      If you change the request method to post by default you will receive a request body in the following format.
+    </p><div class="example"><a id="logging.webhook.example.request"></a><p class="title"><strong>Example 10.7: Default request body example</strong></p><div class="example-contents"><pre class="programlisting">{
+  "status": 0,
+  "timestamp": 12783781381,
+  "duration": 234.3402,
+  "backupCount": 1,
+  "backupFailed": 0,
+  "errorCount": 0,
+  "errors": [],
+  "backups": [
+    {
+      "name":
+      "status":
+      "checks": {
+          "executed": 1,
+          "failed": 0,
+      },
+      "crypt": {
+          "executed": 1,
+          "skipped": 0,
+          "failed": 0,
+      },
+      "syncs" =&gt; {
+          "executed": 1,
+          "skipped": 0,
+          "failed": 0
+      },
+      "cleanup" =&gt; {
+          "executed": 1,
+          "skipped": 0,
+          "failed": 0
+      }
+    }
+  ]
+}</pre></div></div><br class="example-break" /><p>
+      If this format doesn't work for you, you can define your own request body with a template.
+    </p><div class="example"><a id="logging.webhook.example.template"></a><p class="title"><strong>Example 10.8: Template example</strong></p><div class="example-contents"><pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;report&gt;
+  &lt;status&gt;%status%&lt;/status&gt;
+  &lt;date&gt;%timestamp%&lt;/date&gt;
+  &lt;backups&gt;
+    %%backup%%
+    &lt;backup&gt;
+      &lt;name&gt;%name%&lt;/name&gt;
+      &lt;status&gt;%status%&lt;/status&gt;
+    &lt;/backup&gt;
+    %%backup%%
+  &lt;/backups&gt;
+  &lt;errors&gt;
+    %%error%%
+    &lt;error class="%class%" message="%message%" file="%file%" line="%line%" /&gt;
+    %%error%%
+  &lt;/errors&gt;
+&lt;/report&gt;</pre></div></div><br class="example-break" /></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="extending-phpbu"></a>Chapter 11. Extending PHPBU</h1></div></div></div><a id="id3416" class="indexterm"></a><p>
+    You can extend PHPBU with your own Source, Check, Crypt, Sync, Cleanup, Adapter and Logger implementations.
+  </p><p>
+    All you have to do is to register your implementation at the PHPBU Factory.
+    You can do this by adding you own bootstrap file.
+  </p><pre class="screen"><strong class="userinput"><code>phpbu --bootstrap=extend.php</code></strong></pre><p>Your extend.php file could look something like this:</p><div class="example"><a id="id3424"></a><p class="title"><strong>Example 11.1: Extend bootstrap</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+  // make your class accessible
+  require 'Acme/MySource.php';
+  // register your class as a source
+  try {
+      phpbu\App\Factory::register('source', 'mysource', '\\Acme\\MySource');
+  } catch (Exception $e) {
+      die($e-&gt;getMessage());
+  }</pre></div></div><br class="example-break" /><p>
+    For this to work your class Acme\MySource hast to implement
+    the <code class="literal">phpbu\App\Backup\Source</code> Interface.
+    After registering your Source you can use <code class="literal">mysource</code> as source-type
+    within your XML or JSON configuration like this.
+  </p><div class="example"><a id="id3430"></a><p class="title"><strong>Example 11.2: Custom Source XML example</strong></p><div class="example-contents"><pre class="programlisting">&lt;source type="mysource"&gt;&lt;/source&gt;</pre></div></div><br class="example-break" /><div class="example"><a id="id3433"></a><p class="title"><strong>Example 11.3: Custom Source JSON example</strong></p><div class="example-contents"><pre class="programlisting">{"type": "mysource"}</pre></div></div><br class="example-break" /><p>
+    If the alias is already taken this will throw an Exception.
+    You can force phpbu to overwrite any previously registered class using the $force Parameter.
+    Even the phpbu sources could be replaced with custom implementations.
+  </p><div class="example"><a id="id3437"></a><p class="title"><strong>Example 11.4: Overwrite default sources</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+// make your class accessible
+require 'Acme/MyMysqldump.php';
+// register your class as source, override already registered class
+phpbu\App\Factory::register('source', 'mysqldump', '\\Acme\\MyMysqldump', true);</pre></div></div><br class="example-break" /><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.simulation"></a>Executing and simulating</h2></div></div></div><p>
+      If you are extending phpbu you have two options. The first is to simply implement the execution interface. This way
+      you can execute your own Source, Check, Crypt, Sync or Cleanup tasks. The second option is to implement the
+      respective <code class="literal">Simulator</code> interface. Choosing this option you not only have to implement the execution
+      part but rather implement a simulation part as well.
+    </p><p>
+      Simulation is supported out of the box for every implementation, but choosing option two enables you to add
+      viable information about the actions you perform in your code within a simulation run.
+    </p><div class="table"><a id="extending-phpbu.tables.available-interfaces"></a><p class="title"><strong>Table 11.1. Types to register:</strong></p><div class="table-contents"><table summary="Types to register:" border="1"><colgroup><col /><col /><col /></colgroup><thead><tr><th align="left">Type</th><th align="left">Interface for execution only</th><th align="left">Interface for execution and simulation</th></tr></thead><tbody><tr><td align="left">source</td><td align="left">phpbu\App\Backup\Source</td><td align="left">phpbu\App\Backup\Source\Simulator</td></tr><tr><td align="left">check</td><td align="left">phpbu\App\Backup\Check</td><td align="left">phpbu\App\Backup\Check\Simulator</td></tr><tr><td align="left">crypt</td><td align="left">phpbu\App\Backup\Crypt</td><td align="left">phpbu\App\Backup\Crypt</td></tr><tr><td align="left">sync</td><td align="left">phpbu\App\Backup\Sync</td><td align="left">phpbu\App\Backup\Sync\Simulator</td></tr><tr><td align="left">cleanup</td><td align="left">phpbu\App\Backup\Cleanup</td><td align="left">phpbu\App\Backup\Cleanup\Simulator</td></tr><tr><td align="left">adapter</td><td align="left">phpbu\App\Adapter</td><td align="left">-</td></tr><tr><td align="left">logger</td><td align="left">phpbu\App\Backup\Logger</td><td align="left">-</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.source"></a>Create a custom Source</h2></div></div></div><p>
+      A minimal custom Source class could look like this.
+    </p><div class="example"><a id="id3485"></a><p class="title"><strong>Example 11.5: Create a custom source</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+namespace Acme;
+
+use \phpbu\App\Backup\Result;
+use \phpbu\App\Backup\Source;
+use \phpbu\App\Backup\Source\Status;
+use \phpbu\App\Backup\Target;
+
+class MySource implements Source
+{
+    /**
+     * Some data that has to be configured.
+     */
+    private $someConfigValue;
+
+    /**
+     * Here you should validate the configuration and setup your class.
+     *
+     * @param array $conf
+     */
+    public function setup(array $conf)
+    {
+        // here you are getting all of your configured options
+        // $conf[ &lt;option name&gt; ] = &lt;option value&gt;
+        $this-&gt;someConfigValue = $conf['foo']
+    }
+
+    /**
+     * In here you should create your backup.
+     *
+     * @return \phpub\App\Backup\Source\Status
+     * @throws \phpbu\App\Backup\Source\Exception
+     */
+    public function backup(Target $target, Result $result) : Status
+    {
+        // use these methods to store the backup at the configured location
+        // $target-&gt;getPath()
+        // $target-&gt;getPathname()
+        // $target-&gt;getFilename()
+        // to know if the backup should be compressed use
+        // $target-&gt;shouldBeCompressed()
+        // to get the compression settings use
+        // $target-&gt;getCompressor()
+        // if you want to log some debug information use
+        // $result-&gt;debug('some message');
+        // anything bad happens throw a \phpbu\App\Exception
+        // return a backup status
+        // this is important so the runner knows if it still has to compress the backup
+        // return Status::create()-&gt;uncompressed($pathToUncompressedFile);
+    }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.check"></a>Create a custom Check</h2></div></div></div><p>
+      Custom Check implementation example.
+    </p><div class="example"><a id="id3491"></a><p class="title"><strong>Example 11.6: Create a custom check</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+namespace Acme;
+
+use \phpbu\App\Backup\Check;
+use \phpbu\App\Backup\Collector;
+use \phpbu\App\Backup\Target;
+
+class MyCheck implements Check
+{
+    /**
+     * Perform your check.
+     */
+    public function pass(Target $target, $value, Collector $collector) : bool
+    {
+        // use Target to refer to the created backup
+        // $target-&gt;getPathname()
+        // $value is the configured value
+        // &lt;check type="mycheck" value="myvalue"/&gt;
+        // $value = "myvalue"
+        // use the collector to get a list of previous backups array&lt;splFileInfo&gt;
+        // $history = $collector-&gt;getBackups()
+        // throw a \phpbu\App\Backup\Check\Exception if something bad is happening
+        // finally return if the check passes or not
+        return $boolean;
+    }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.sync"></a>Create a custom Sync</h2></div></div></div><p>
+      Implementing a custom Sync.
+    </p><div class="example"><a id="id3497"></a><p class="title"><strong>Example 11.7: Create a custom sync</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+namespace Acme;
+
+use \phpbu\App\Backup\Sync;
+use \phpbu\App\Backup\Target;
+
+class MySync implements Sync
+{
+    /**
+     * Some data that has to be configured.
+     */
+    private $someConfigValue;
+
+    /**
+     * Here you should validate the configuration and setup your class.
+     */
+    public function setup(array $conf)
+    {
+        // here you are getting all of your configured options
+        // $conf[ &lt;option name&gt; ] = &lt;option value&gt;
+        $this-&gt;someConfigValue = $conf['foo']
+    }
+
+    /**
+     * Execute your sync.
+     */
+    public function sync(Target $target, Result $result)
+    {
+        // use Target to refer to the created backup
+        // $target-&gt;getPathname()
+        // execute your sync
+        // if you want to log some debug information use
+        // $result-&gt;debug('some message');
+        // throw a \phpbu\App\Backup\Sync\Exception if something is going wrong
+    }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.cleaner"></a>Create a custom Cleaner</h2></div></div></div><p>
+        Implementing a custom cleaner.
+      </p><div class="example"><a id="id3503"></a><p class="title"><strong>Example 11.8: Create a custom cleaner</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+namespace Acme;
+
+use \phpbu\App\Backup\Collector;
+use \phpbu\App\Backup\Sync;
+use \phpbu\App\Backup\Target;
+
+class MyCleaner implements Sync
+{
+    /**
+     * Some data that has to be configured.
+     */
+    private $someConfigValue;
+
+    /**
+     * Here you should validate the configuration and setup your class.
+     */
+    public function setup(array $conf)
+    {
+        // here you are getting all of your configured options
+        // $conf[ &lt;option name&gt; ] = &lt;option value&gt;
+        $this-&gt;someConfigValue = $conf['foo']
+    }
+
+    /**
+     * Execute your cleanup.
+     */
+    public function cleanup(Target $target, Collector $collector, Result $result)
+    {
+        // use Target to refer to the created backup
+        // $target-&gt;getPathname()
+        // use the collector to get a list of previous backups array&lt;splFileInfo&gt;
+        // delete files matching your cleanup rules
+        // $history = $collector-&gt;getBackups()
+        // if you want to log some debug information use
+        // $result-&gt;debug('some message');
+        // throw a \phpbu\App\Backup\Cleaner\Exception if something is going wrong
+    }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.adapter"></a>Create a custom Adapter</h2></div></div></div><p>
+      Custom Adapter implementation example.
+    </p><div class="example"><a id="id3509"></a><p class="title"><strong>Example 11.9: Create a custom adapter</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+namespace Acme;
+
+use \phpbu\App\Adapter;
+
+class MyAdapter implements Adapter
+{
+    /**
+     * Setup the adapter.
+     *
+     * @param  array $conf
+     * @return void
+     */
+    public function setup(array $conf)
+    {
+        // here you will get all configured adapter options
+    }
+
+    /**
+     * Return a value for a given path.
+     *
+     * @param  string $path
+     * @return string
+     */
+    public function getValue(string $path) : string
+    {
+        // path is everything behind the second colon
+        // adapter:name:$path
+        return 'some_value';
+    }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.logger"></a>Create a custom Logger</h2></div></div></div><div class="itemizedlist"><p class="title"><strong>List of available events:</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>phpbu.debug</p></li><li class="listitem"><p>phpbu.app_start</p></li><li class="listitem"><p>phpbu.app_end</p></li><li class="listitem"><p>phpbu.backup_start</p></li><li class="listitem"><p>phpbu.backup_failed</p></li><li class="listitem"><p>phpbu.backup_end</p></li><li class="listitem"><p>phpbu.crypt_start</p></li><li class="listitem"><p>phpbu.crypt_failed</p></li><li class="listitem"><p>phpbu.crypt_end</p></li><li class="listitem"><p>phpbu.check_start</p></li><li class="listitem"><p>phpbu.check_failed</p></li><li class="listitem"><p>phpbu.check_end</p></li><li class="listitem"><p>phpbu.sync_start</p></li><li class="listitem"><p>phpbu.sync_failed</p></li><li class="listitem"><p>phpbu.sync_skipped</p></li><li class="listitem"><p>phpbu.sync_end</p></li><li class="listitem"><p>phpbu.cleanup_start</p></li><li class="listitem"><p>phpbu.cleanup_failed</p></li><li class="listitem"><p>phpbu.cleanup_skipped</p></li><li class="listitem"><p>phpbu.cleanup_end</p></li></ul></div><p>
+      Implementing a custom logger.
+    </p><div class="example"><a id="id3557"></a><p class="title"><strong>Example 11.10: Create a custom logger</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+namespace Acme;
+
+use phpbu\App\Event;
+use phpbu\App\Log\Logger;
+
+class MyLogger implements Logger
+{
+    /**
+     * Logger interface requires 'getSubscribedEvents' method.
+     * Define the events you want to get notified about.
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            'phpbu.debug'   =&gt; 'onDebug',
+            'phpbu.app_end' =&gt; 'onPhpbuEnd',
+        ];
+    }
+
+    /**
+     * Logger interface requires 'setup' method to configure your logger.
+     * Here you should validate the configuration and setup your class.
+     */
+    public function setup(array $conf)
+    {
+        // here you are getting all of your configured options
+        // $conf[ &lt;option name&gt; ] = &lt;option value&gt;
+    }
+
+    /**
+     * Handle the debug event.
+     */
+    public function onDebug(Event\Debug $event)
+    {
+        // use $event-&gt;getMessage() to get the debug message
+    }
+
+    /**
+     * Handle phpbuEnd event
+     */
+    public function onPhpbuEnd(Event\App\End $event)
+    {
+        // handle the phpbuEnd
+        // use $event-&gt;getResult() to get the application result
+    }
+}</pre></div></div><br class="example-break" /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="extending.summary"></a>Summary</h2></div></div></div><div class="example"><a id="id3562"></a><p class="title"><strong>Example 11.11: Example file structure</strong></p><div class="example-contents"><pre class="programlisting">acme/
+├── backup/
+├── src/
+|  ├── bootstrap.php
+|  ├── MyCheck.php
+|  ├── MyCleaner.php
+|  ├── MyCrypt.php
+|  ├── MySource.php
+|  └── MySync.php
+|
+├── phpbu.phar
+└── phpbu.xml.dist</pre></div></div><br class="example-break" /><div class="example"><a id="id3565"></a><p class="title"><strong>Example 11.12: Example bootstrap.php</strong></p><div class="example-contents"><pre class="programlisting">&lt;?php
+// use your autoloader or require your classes manually
+// so phpbu can find them while executing you backup
+// register your class as source, you may override already registered classes
+phpbu\App\Factory::register('source', 'mysource', '\\Acme\\MySource');
+phpbu\App\Factory::register('check', 'mycheck', '\\Acme\\MyCheck');
+phpbu\App\Factory::register('cleanup', 'mycleanup', '\\Acme\\MyCleaner');</pre></div></div><br class="example-break" /><div class="example"><a id="id3568"></a><p class="title"><strong>Example 11.13: Example phpbu.xml.dist</strong></p><div class="example-contents"><pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;phpbu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://schema.phpbu.de/5.0/phpbu.xsd"&gt;
+  &lt;backups&gt;
+    &lt;backup&gt;
+      &lt;!-- source --&gt;
+      &lt;source type="mysource"&gt;
+        &lt;option name="foo" value="bar"/&gt;
+      &lt;/source&gt;
+      &lt;!-- where should the backup be stored --&gt;
+      &lt;target dirname="backup"
+              filename="mysource-%Y%m%d-%H%i.backup"
+              compress="bzip2"/&gt;
+      &lt;!-- check the created backup --&gt;
+      &lt;check type="mycheck" value="100"/&gt;
+      &lt;!-- cleanup the backup location --&gt;
+      &lt;cleanup type="mycleanup"&gt;
+        &lt;option name="foo" value="bar"/&gt;
+      &lt;/cleanup&gt;
+    &lt;/backup&gt;
+  &lt;/backups&gt;
+&lt;/phpbu&gt;</pre></div></div><br class="example-break" /></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="integrations"></a>Chapter 12. Framework integrations</h1></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="integrations.laravel"></a>Laravel</h2></div></div></div><a id="id3573" class="indexterm"></a><p>
+      The <code class="literal">laravel-phpbu</code> package integrates <code class="literal">phpbu</code> into the laravel
+      framework so you can use the <code class="literal">artisan</code> command to execute your backups
+      and a laravel style php configuration to set them up.
+    </p><h3><a id="id3580"></a>Requirements</h3><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: bullet; "><li class="listitem" style="list-style-type: disc"><p>
+          PHP 7.0
+        </p></li><li class="listitem" style="list-style-type: disc"><p>
+          Laravel 5.*
+        </p></li><li class="listitem" style="list-style-type: disc"><p>
+          phpbu 5.0.*
+        </p></li></ul></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="integrations.laravel.installation"></a>Installation</h3></div></div></div><p>
+        Use composer to install the package.
+      </p><pre class="screen"><strong class="userinput"><code>composer require "phpbu/phpbu-laravel"</code></strong></pre><p>
+        Add the package ServiceProvider to your <code class="literal">config/app.php</code> configuration file.
+      </p><pre class="programlisting">'providers' =&gt; [
+    /*
+    * phpbu Backup Service Providers...
+    */
+    phpbu\Laravel\ServiceProvider::class,
+];</pre><p>
+        Finally use the laravel <code class="literal">artisan</code> command
+        to create a configuration skeleton by publishing the package.
+      </p><pre class="screen"><strong class="userinput"><code>php artisan vendor:publish --provider="phpbu\Laravel\ServiceProvider"</code></strong></pre><p>
+        After publishing the ServiceProvider a <code class="literal">phpbu.php</code>
+        configuration file is created in your config directory.
+      </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="integrations.laravel.configuration"></a>Configuration</h3></div></div></div><p>There are two ways of configuring your backup.</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+            Use the created <code class="literal">phpbu.php</code> configuration file
+          </p></li><li class="listitem"><p>
+            Use a standard <code class="literal">phpbu.xml</code> or <code class="literal">phpbu.json</code> configuration file
+          </p></li></ol></div><p>
+        The main difference between those two options is the implemented feature set.
+      </p><p>
+        While the phpbu configuration files give you full access to all features of phpbu
+        the laravel configuration file currently does not support all features of phpbu f.e. encryption.
+      </p><h4><a id="id3615"></a>Using the laravel configuration</h4><p>
+        The main concept of configuring backups stays the same. A backup consists of a source and a target.
+        The source represents the data you want to backup.
+        The target represents the location where you want to store your backup.
+        You can add checks, cleanups and syncs to a backup to validate, cleanup or sync your backup to another location.
+      </p><p>
+        In the laravel configuration file you can specify two types of backups,
+        <code class="literal">directories</code> and <code class="literal">databases</code> (MySQL, PostgreSQL).
+      </p><h4><a id="id3620"></a>Directories</h4><p>
+        Define the directory you want to backup and the target location where to store your backup.
+      </p><pre class="programlisting">    'directories' =&gt; [
+        [
+            'source' =&gt; [
+                'path'    =&gt; storage_path('app'),
+                'options' =&gt; [],
+            ],
+            'target' =&gt; [
+                'dirname'     =&gt; storage_path('/backup/app'),
+                'filename'    =&gt; 'app-%Y%m%d-%H%i.tar',
+                'compression' =&gt; 'bzip2',
+            ]
+        ]
+    ],</pre><h4><a id="id3623"></a>Databases</h4><p>
+        Just define the laravel database connection configured in your <code class="literal">databases.php</code> configuration
+        you want to backup and you are done. You can overwrite every setting defined with the specific option f.e.
+        <code class="literal">username</code> or <code class="literal">password</code> in case you have to use different credentials to
+        backup your database.
+      </p><p>
+        You can use every option the <a class="link" href="#source.mysqldump" title="MySQL - mysqldump">mysqldump</a> source supports
+        f.e. to exclude some tables.
+        Just use the <span class="emphasis"><em>option-name</em></span> as index and the <span class="emphasis"><em>option-value</em></span> as value.
+      </p><pre class="programlisting">    'databases' =&gt; [&lt;emphasise&gt;
+        [
+            'source' =&gt; [
+                'connection' =&gt; 'mysql',
+                'options'    =&gt; []
+            ],
+            'target' =&gt; [
+                'dirname'     =&gt; storage_path('backup/db'),
+                'filename'    =&gt; 'dump-%Y%m%d-%H%i.sql',
+                'compression' =&gt; 'bzip2',
+            ]
+        ],
+    ],</pre><h4><a id="id3633"></a>Adding Check, Sync and Cleanup</h4><p>
+        Add <span class="emphasis"><em>check</em></span>, <span class="emphasis"><em>sync</em></span> and <span class="emphasis"><em>cleanup</em></span> definitions to
+        your backup configuration.
+      </p><pre class="programlisting">            'check' =&gt; [
+                'type'  =&gt; 'SizeMin',
+                'value' =&gt; '10B',
+            ],
+            'sync' =&gt; [
+              'filesystem' =&gt; 's3',
+              'path'       =&gt; '/backups/db'
+            ],
+            'cleanup' =&gt; [
+                'type'    =&gt; 'quantity',
+                'options' =&gt; [
+                    'amount' =&gt; '20'
+                ]
+            ]</pre><p>
+        For a list of available <a class="link" href="#check" title="Chapter 6. Backup Validation"><code class="literal">checks</code></a>
+        and <a class="link" href="#cleanup" title="Chapter 9. Cleanup backups"><code class="literal">cleanups</code></a> check the corresponding
+        documentation sections.
+      </p><p>
+        To sync your backups you can use every filesystem defined in your laravel <code class="literal">filesystems.php</code>
+        configuration file.
+      </p><h4><a id="id3646"></a>Using a phpbu configuration file</h4><p>
+        If you want to use a phpbu configuration file your laravel phpbu.php
+        configuration should look something like this.
+      </p><pre class="programlisting">&lt;?php
+return [
+    /*
+    |--------------------------------------------------
+    | phpbu configuration
+    |--------------------------------------------------
+    |
+    | Path to a phpbu configuration xml or json file.
+    */
+
+    'phpbu' =&gt; base_path('phpbu.xml'),
+];</pre><p>
+        For this to work you have to setup a valid phpbu.xml <a class="link" href="#configuration.xml" title="XML-Configuration">configuration</a>
+        file in your project root.
+      </p><p>
+        Remember that all paths in a phpbu configuration have to to absolute
+        or relative to the specified phpbu configuration file.
+      </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="integrations.laravel.usage"></a>Usage</h3></div></div></div></div><p>
+      To execute the backup use the <code class="literal">artisan</code> command line tool.
+    </p><pre class="screen"><strong class="userinput"><code>php artisan phpbu:backup</code></strong></pre><p>
+      To execute a dry-run without making any changes.
+    </p><pre class="screen"><strong class="userinput"><code>php artisan phpbu:backup --phpbu-simulate</code></strong></pre></div></div><div class="appendix"><div class="titlepage"><div><div><h1 class="title"><a id="appendixes.index"></a>Appendix A. Index</h1></div></div></div><div class="index"><div class="titlepage"><div><div><h2 class="title"><a id="appendixes.index.index"></a></h2></div></div></div><div class="index"><div class="indexdiv"><h3></h3><dl><dt>, <a class="indexterm" href="#cli.simulation">Simulation</a>, <a class="indexterm" href="#cli.limit">Limit</a></dt></dl></div><div class="indexdiv"><h3>A</h3><dl><dt>adapters, <a class="indexterm" href="#configuration.adapters">Adapters</a></dt><dt>amazon s3, <a class="indexterm" href="#sync.amazon">Amazon S3</a></dt><dt>ArangoDB, <a class="indexterm" href="#source.arangodump">ArangoDB</a></dt></dl></div><div class="indexdiv"><h3>C</h3><dl><dt>check, <a class="indexterm" href="#check">Backup Validation</a></dt><dt>cleanup, <a class="indexterm" href="#cleanup">Cleanup backups</a></dt><dt>cli, <a class="indexterm" href="#cli">The Command-Line-Runner</a></dt><dt>Composer, <a class="indexterm" href="#installation.composer">Composer</a></dt><dt>Configuration, <a class="indexterm" href="#configuration">Configuration</a></dt></dl></div><div class="indexdiv"><h3>D</h3><dl><dt>dotenv, <a class="indexterm" href="#adapters.dotenv">Dotenv adapter "dotenv"</a>, <a class="indexterm" href="#adapters.array">PHP config adapter "array"</a></dt><dt>dropbox, <a class="indexterm" href="#sync.dropbox">Dropbox</a></dt></dl></div><div class="indexdiv"><h3>E</h3><dl><dt>Elasticsearch, <a class="indexterm" href="#source.elasticdump">Elastic</a></dt><dt>encryption, <a class="indexterm" href="#crypt">Encryption</a></dt><dt>env, <a class="indexterm" href="#adapters.env">Environment adapter "env"</a></dt><dt>extending, <a class="indexterm" href="#extending-phpbu">Extending PHPBU</a></dt></dl></div><div class="indexdiv"><h3>I</h3><dl><dt>innobackupex, <a class="indexterm" href="#source.xtrabackup">MySQL - xtrabackup</a></dt></dl></div><div class="indexdiv"><h3>J</h3><dl><dt>JSON-Configuration, <a class="indexterm" href="#configuration.json">JSON-Configuration</a></dt></dl></div><div class="indexdiv"><h3>L</h3><dl><dt>Laravel, <a class="indexterm" href="#integrations.laravel">Laravel</a></dt><dt>limit, <a class="indexterm" href="#cli.limit">Limit</a></dt><dt>Logging, <a class="indexterm" href="#logging">Logging</a></dt></dl></div><div class="indexdiv"><h3>M</h3><dl><dt>mcrypt, <a class="indexterm" href="#crypt.mcrypt">mcrypt</a></dt><dt>MongoDB, <a class="indexterm" href="#source.mongodump">MongoDB</a></dt><dt>MySQL, <a class="indexterm" href="#source.mysqldump">MySQL - mysqldump</a></dt><dt>mysqldump, <a class="indexterm" href="#source.mysqldump">MySQL - mysqldump</a></dt></dl></div><div class="indexdiv"><h3>O</h3><dl><dt>openssl, <a class="indexterm" href="#crypt.openssl">openssl</a></dt></dl></div><div class="indexdiv"><h3>P</h3><dl><dt>pgdump, <a class="indexterm" href="#source.pgdump">pgdump</a></dt><dt>PHAR, <a class="indexterm" href="#installation.phar">PHP Archive (PHAR)</a></dt></dl></div><div class="indexdiv"><h3>R</h3><dl><dt>redis, <a class="indexterm" href="#source.redis">redis</a></dt><dt>requirements, <a class="indexterm" href="#installation.requirements">Requirements</a></dt><dt>rsync, <a class="indexterm" href="#source.rsync">rsync</a>, <a class="indexterm" href="#sync.rsync">Rsync</a></dt></dl></div><div class="indexdiv"><h3>S</h3><dl><dt>schedule, <a class="indexterm" href="#configuration.schedule">Schedule backups</a></dt><dt>simulation, <a class="indexterm" href="#cli.simulation">Simulation</a></dt><dt>source, <a class="indexterm" href="#source">Backup Sources</a></dt><dt>sync, <a class="indexterm" href="#sync">Sync Backups</a></dt></dl></div><div class="indexdiv"><h3>T</h3><dl><dt>tar, <a class="indexterm" href="#source.tar">Directories</a></dt></dl></div><div class="indexdiv"><h3>V</h3><dl><dt>validation, <a class="indexterm" href="#check">Backup Validation</a></dt></dl></div><div class="indexdiv"><h3>X</h3><dl><dt>XML-Configuration, <a class="indexterm" href="#configuration.xml">XML-Configuration</a></dt><dt>xtrabackup, <a class="indexterm" href="#source.xtrabackup">MySQL - xtrabackup</a></dt></dl></div></div></div></div><div class="appendix"><div class="titlepage"><div><div><h1 class="title"><a id="appendixes.copyright"></a>Appendix B. Copyright</h1></div></div></div><pre class="programlisting">Copyright (c) 2014-2015 Sebastian Feldmann.
+
+This work is licensed under the Creative Commons Attribution 3.0
+Unported License.
+
+A summary of the license is given below, followed by the full legal
+text.
+
+--------------------------------------------------------------------
+
+You are free:
+
+    * to Share - to copy, distribute and transmit the work
+    * to Remix - to adapt the work
+
+Under the following conditions:
+
+Attribution. You must attribute the work in the manner specified by
+the author or licensor (but not in any way that suggests that they
+endorse you or your use of the work).
+
+    * For any reuse or distribution, you must make clear to others
+      the license terms of this work. The best way to do this is with
+      a link to this web page.
+
+    * Any of the above conditions can be waived if you get
+      permission from the copyright holder.
+
+    * Nothing in this license impairs or restricts the author's moral
+      rights.
+
+Your fair dealing and other rights are in no way affected by the
+above.
+
+This is a human-readable summary of the Legal Code (the full
+license) below.
+
+====================================================================
+
+Creative Commons Legal Code
+Attribution 3.0 Unported
+
+CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
+LEGAL SERVICES. DISTRIBUTION OF THIS LICENSE DOES NOT CREATE AN
+ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
+INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO
+WARRANTIES REGARDING THE INFORMATION PROVIDED, AND DISCLAIMS
+LIABILITY FOR DAMAGES RESULTING FROM ITS USE.
+
+License
+
+THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS
+CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). THE WORK IS
+PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW. ANY USE OF THE
+WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR COPYRIGHT LAW
+IS PROHIBITED.
+
+BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND
+AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS
+LICENSE MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU
+THE RIGHTS CONTAINED HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF
+SUCH TERMS AND CONDITIONS.
+
+1. Definitions
+
+   a. "Adaptation" means a work based upon the Work, or upon the
+      Work and other pre-existing works, such as a translation,
+      adaptation, derivative work, arrangement of music or other
+      alterations of a literary or artistic work, or phonogram or
+      performance and includes cinematographic adaptations or any
+      other form in which the Work may be recast, transformed, or
+      adapted including in any form recognizably derived from the
+      original, except that a work that constitutes a Collection
+      will not be considered an Adaptation for the purpose of this
+      License. For the avoidance of doubt, where the Work is a
+      musical work, performance or phonogram, the synchronization of
+      the Work in timed-relation with a moving image ("synching")
+      will be considered an Adaptation for the purpose of this
+      License.
+
+   b. "Collection" means a collection of literary or artistic works,
+      such as encyclopedias and anthologies, or performances,
+      phonograms or broadcasts, or other works or subject matter
+      other than works listed in Section 1(f) below, which, by
+      reason of the selection and arrangement of their contents,
+      constitute intellectual creations, in which the Work is
+      included in its entirety in unmodified form along with one or
+      more other contributions, each constituting separate and
+      independent works in themselves, which together are assembled
+      into a collective whole. A work that constitutes a Collection
+      will not be considered an Adaptation (as defined above) for
+      the purposes of this License.
+
+   c. "Distribute" means to make available to the public the
+      original and copies of the Work or Adaptation, as appropriate,
+      through sale or other transfer of ownership.
+
+   d. "Licensor" means the individual, individuals, entity or
+      entities that offer(s) the Work under the terms of this License.
+
+   e. "Original Author" means, in the case of a literary or artistic
+      work, the individual, individuals, entity or entities who
+      created the Work or if no individual or entity can be
+      identified, the publisher; and in addition (i) in the case of
+      a performance the actors, singers, musicians, dancers, and
+      other persons who act, sing, deliver, declaim, play in,
+      interpret or otherwise perform literary or artistic works or
+      expressions of folklore; (ii) in the case of a phonogram the
+      producer being the person or legal entity who first fixes the
+      sounds of a performance or other sounds; and, (iii) in the
+      case of broadcasts, the organization that transmits the
+      broadcast.
+
+   f. "Work" means the literary and/or artistic work offered under
+      the terms of this License including without limitation any
+      production in the literary, scientific and artistic domain,
+      whatever may be the mode or form of its expression including
+      digital form, such as a book, pamphlet and other writing; a
+      lecture, address, sermon or other work of the same nature; a
+      dramatic or dramatico-musical work; a choreographic work or
+      entertainment in dumb show; a musical composition with or
+      without words; a cinematographic work to which are assimilated
+      works expressed by a process analogous to cinematography; a
+      work of drawing, painting, architecture, sculpture, engraving
+      or lithography; a photographic work to which are assimilated
+      works expressed by a process analogous to photography; a work
+      of applied art; an illustration, map, plan, sketch or three-
+      dimensional work relative to geography, topography,
+      architecture or science; a performance; a broadcast; a
+      phonogram; a compilation of data to the extent it is protected
+      as a copyrightable work; or a work performed by a variety or
+      circus performer to the extent it is not otherwise considered
+      a literary or artistic work.
+
+   g. "You" means an individual or entity exercising rights under
+      this License who has not previously violated the terms of
+      this License with respect to the Work, or who has received
+      express permission from the Licensor to exercise rights under
+      this License despite a previous violation.
+
+   h. "Publicly Perform" means to perform public recitations of the
+      Work and to communicate to the public those public
+      recitations, by any means or process, including by wire or
+      wireless means or public digital performances; to make
+      available to the public Works in such a way that members of
+      the public may access these Works from a place and at a place
+      individually chosen by them; to perform the Work to the public
+      by any means or process and the communication to the public of
+      the performances of the Work, including by public digital
+      performance; to broadcast and rebroadcast the Work by any
+      means including signs, sounds or images.
+
+   i. "Reproduce" means to make copies of the Work by any means
+      including without limitation by sound or visual recordings and
+      the right of fixation and reproducing fixations of the Work,
+      including storage of a protected performance or phonogram in
+      digital form or other electronic medium.
+
+2. Fair Dealing Rights. Nothing in this License is intended to
+   reduce, limit, or restrict any uses free from copyright or rights
+   arising from limitations or exceptions that are provided for in
+   connection with the copyright protection under copyright law or
+   other applicable laws.
+
+3. License Grant. Subject to the terms and conditions of this
+   License, Licensor hereby grants You a worldwide, royalty-free,
+   non-exclusive, perpetual (for the duration of the applicable
+   copyright) license to exercise the rights in the Work as stated
+   below:
+
+   a. to Reproduce the Work, to incorporate the Work into one or
+      more Collections, and to Reproduce the Work as incorporated
+      in the Collections;
+
+   b. to create and Reproduce Adaptations provided that any such
+      Adaptation, including any translation in any medium, takes
+      reasonable steps to clearly label, demarcate or otherwise
+      identify that changes were made to the original Work. For
+      example, a translation could be marked "The original work was
+      translated from English to Spanish," or a modification could
+      indicate "The original work has been modified.";
+
+   c. to Distribute and Publicly Perform the Work including as
+      incorporated in Collections; and,
+
+   d. to Distribute and Publicly Perform Adaptations.
+
+   e. For the avoidance of doubt:
+
+      i. Non-waivable Compulsory License Schemes. In those
+         jurisdictions in which the right to collect royalties
+         through any statutory or compulsory licensing scheme cannot
+         be waived, the Licensor reserves the exclusive right to
+         collect such royalties for any exercise by You of the
+         rights granted under this License;
+
+      ii. Waivable Compulsory License Schemes. In those
+          jurisdictions in which the right to collect royalties
+          through any statutory or compulsory licensing scheme can
+          be waived, the Licensor waives the exclusive right to
+          collect such royalties for any exercise by You of the
+          rights granted under this License; and,
+
+      iii. Voluntary License Schemes. The Licensor waives the right
+           to collect royalties, whether individually or, in the
+           event that the Licensor is a member of a collecting
+           society that administers voluntary licensing schemes, via
+           that society, from any exercise by You of the rights
+           granted under this License.
+
+The above rights may be exercised in all media and formats whether
+now known or hereafter devised. The above rights include the right
+to make such modifications as are technically necessary to exercise
+the rights in other media and formats. Subject to Section 8(f), all
+rights not expressly granted by Licensor are hereby reserved.
+
+4. Restrictions. The license granted in Section 3 above is expressly
+   made subject to and limited by the following restrictions:
+
+   a. You may Distribute or Publicly Perform the Work only under the
+      terms of this License. You must include a copy of, or the
+      Uniform Resource Identifier (URI) for, this License with every
+      copy of the Work You Distribute or Publicly Perform. You may
+      not offer or impose any terms on the Work that restrict the
+      terms of this License or the ability of the recipient of the
+      Work to exercise the rights granted to that recipient under
+      the terms of the License. You may not sublicense the Work. You
+      must keep intact all notices that refer to this License and to
+      the disclaimer of warranties with every copy of the Work You
+      Distribute or Publicly Perform. When You Distribute or
+      Publicly Perform the Work, You may not impose any effective
+      technological measures on the Work that restrict the ability
+      of a recipient of the Work from You to exercise the rights
+      granted to that recipient under the terms of the License. This
+      Section 4(a) applies to the Work as incorporated in a
+      Collection, but this does not require the Collection apart
+      from the Work itself to be made subject to the terms of this
+      License. If You create a Collection, upon notice from any
+      Licensor You must, to the extent practicable, remove from the
+      Collection any credit as required by Section 4(b), as
+      requested. If You create an Adaptation, upon notice from any
+      Licensor You must, to the extent practicable, remove from the
+      Adaptation any credit as required by Section 4(b), as requested.
+
+   b. If You Distribute, or Publicly Perform the Work or any
+      Adaptations or Collections, You must, unless a request has
+      been made pursuant to Section 4(a), keep intact all copyright
+      notices for the Work and provide, reasonable to the medium or
+      means You are utilizing: (i) the name of the Original Author
+      (or pseudonym, if applicable) if supplied, and/or if the
+      Original Author and/or Licensor designate another party or
+      parties (e.g., a sponsor institute, publishing entity,
+      journal) for attribution ("Attribution Parties") in Licensor's
+      copyright notice, terms of service or by other reasonable
+      means, the name of such party or parties; (ii) the title of
+      the Work if supplied; (iii) to the extent reasonably
+      practicable, the URI, if any, that Licensor specifies to be
+      associated with the Work, unless such URI does not refer to
+      the copyright notice or licensing information for the Work;
+      and (iv), consistent with Section 3(b), in the case of an
+      Adaptation, a credit identifying the use of the Work in the
+      Adaptation (e.g., "French translation of the Work by Original
+      Author," or "Screenplay based on original Work by Original
+      Author"). The credit required by this Section 4 (b) may be
+      implemented in any reasonable manner; provided, however, that
+      in the case of a Adaptation or Collection, at a minimum such
+      credit will appear, if a credit for all contributing authors
+      of the Adaptation or Collection appears, then as part of these
+      credits and in a manner at least as prominent as the credits
+      for the other contributing authors. For the avoidance of
+      doubt, You may only use the credit required by this Section
+      for the purpose of attribution in the manner set out above
+      and, by exercising Your rights under this License, You may not
+      implicitly or explicitly assert or imply any connection with,
+      sponsorship or endorsement by the Original Author, Licensor
+      and/or Attribution Parties, as appropriate, of You or Your use
+      of the Work, without the separate, express prior written
+      permission of the Original Author, Licensor and/or
+      Attribution Parties.
+
+   c. Except as otherwise agreed in writing by the Licensor or as
+      may be otherwise permitted by applicable law, if You
+      Reproduce, Distribute or Publicly Perform the Work either by
+      itself or as part of any Adaptations or Collections, You must
+      not distort, mutilate, modify or take other derogatory action
+      in relation to the Work which would be prejudicial to the
+      Original Author's honor or reputation. Licensor agrees that in
+      those jurisdictions (e.g. Japan), in which any exercise of the
+      right granted in Section 3(b) of this License (the right to
+      make Adaptations) would be deemed to be a distortion,
+      mutilation, modification or other derogatory action
+      prejudicial to the Original Author's honor and reputation, the
+      Licensor will waive or not assert, as appropriate, this
+      Section, to the fullest extent permitted by the applicable
+      national law, to enable You to reasonably exercise Your right
+      under Section 3(b) of this License (right to make Adaptations)
+      but not otherwise.
+
+5. Representations, Warranties and Disclaimer
+
+UNLESS OTHERWISE MUTUALLY AGREED TO BY THE PARTIES IN WRITING,
+LICENSOR OFFERS THE WORK AS-IS AND MAKES NO REPRESENTATIONS OR
+WARRANTIES OF ANY KIND CONCERNING THE WORK, EXPRESS, IMPLIED,
+STATUTORY OR OTHERWISE, INCLUDING, WITHOUT LIMITATION, WARRANTIES OF
+TITLE, MERCHANTIBILITY, FITNESS FOR A PARTICULAR PURPOSE,
+NONINFRINGEMENT, OR THE ABSENCE OF LATENT OR OTHER DEFECTS,
+ACCURACY, OR THE PRESENCE OF ABSENCE OF ERRORS, WHETHER OR NOT
+DISCOVERABLE. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF
+IMPLIED WARRANTIES, SO SUCH EXCLUSION MAY NOT APPLY TO YOU.
+
+6. Limitation on Liability. EXCEPT TO THE EXTENT REQUIRED BY
+   APPLICABLE LAW, IN NO EVENT WILL LICENSOR BE LIABLE TO YOU ON ANY
+   LEGAL THEORY FOR ANY SPECIAL, INCIDENTAL, CONSEQUENTIAL, PUNITIVE
+   OR EXEMPLARY DAMAGES ARISING OUT OF THIS LICENSE OR THE USE OF
+   THE WORK, EVEN IF LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY
+   OF SUCH DAMAGES.
+
+7. Termination
+
+   a. This License and the rights granted hereunder will terminate
+      automatically upon any breach by You of the terms of this
+      License. Individuals or entities who have received Adaptations
+      or Collections from You under this License, however, will not
+      have their licenses terminated provided such individuals or
+      entities remain in full compliance with those licenses.
+      Sections 1, 2, 5, 6, 7, and 8 will survive any termination of
+      this License.
+
+   b. Subject to the above terms and conditions, the license granted
+      here is perpetual (for the duration of the applicable
+      copyright in the Work). Notwithstanding the above, Licensor
+      reserves the right to release the Work under different license
+      terms or to stop distributing the Work at any time; provided,
+      however that any such election will not serve to withdraw this
+      License (or any other license that has been, or is required to
+      be, granted under the terms of this License), and this License
+      will continue in full force and effect unless terminated as
+      stated above.
+
+8. Miscellaneous
+
+   a. Each time You Distribute or Publicly Perform the Work or a
+      Collection, the Licensor offers to the recipient a license to
+      the Work on the same terms and conditions as the license
+      granted to You under this License.
+
+   b. Each time You Distribute or Publicly Perform an Adaptation,
+      Licensor offers to the recipient a license to the original
+      Work on the same terms and conditions as the license granted
+      to You under this License.
+
+   c. If any provision of this License is invalid or unenforceable
+      under applicable law, it shall not affect the validity or
+      enforceability of the remainder of the terms of this License,
+      and without further action by the parties to this agreement,
+      such provision shall be reformed to the minimum extent
+      necessary to make such provision valid and enforceable.
+
+   d. No term or provision of this License shall be deemed waived
+      and no breach consented to unless such waiver or consent shall
+      be in writing and signed by the party to be charged with such
+      waiver or consent.
+
+   e. This License constitutes the entire agreement between the
+      parties with respect to the Work licensed here. There are no
+      understandings, agreements or representations with respect to
+      the Work not specified here. Licensor shall not be bound by
+      any additional provisions that may appear in any communication
+      from You. This License may not be modified without the mutual
+      written agreement of the Licensor and You.
+
+   f. The rights granted under, and the subject matter referenced,
+      in this License were drafted utilizing the terminology of the
+      Berne Convention for the Protection of Literary and Artistic
+      Works (as amended on September 28, 1979), the Rome Convention
+      of 1961, the WIPO Copyright Treaty of 1996, the WIPO
+      Performances and Phonograms Treaty of 1996 and the Universal
+      Copyright Convention (as revised on July 24, 1971). These
+      rights and subject matter take effect in the relevant
+      jurisdiction in which the License terms are sought to be
+      enforced according to the corresponding provisions of the
+      implementation of those treaty provisions in the applicable
+      national law. If the standard suite of rights granted under
+      applicable copyright law includes additional rights not
+      granted under this License, such additional rights are deemed
+      to be included in the License; this License is not intended to
+      restrict the license of any rights under applicable law.
+
+Creative Commons is not a party to this License, and makes no
+warranty whatsoever in connection with the Work. Creative Commons
+will not be liable to You or any party on any legal theory for any
+damages whatsoever, including without limitation any general,
+special, incidental or consequential damages arising in connection
+to this license. Notwithstanding the foregoing two (2) sentences,
+if Creative Commons has expressly identified itself as the Licensor
+hereunder, it shall have all rights and obligations of Licensor.
+
+Except for the limited purpose of indicating to the public that the
+Work is licensed under the CCPL, Creative Commons does not authorize
+the use by either party of the trademark "Creative Commons" or any
+related trademark or logo of Creative Commons without the prior
+written consent of Creative Commons. Any permitted use will be in
+compliance with Creative Commons' then-current trademark usage
+guidelines, as may be published on its website or otherwise made
+available upon request from time to time. For the avoidance of
+doubt, this trademark restriction does not form part of this
+License.
+
+Creative Commons may be contacted at http://creativecommons.org/.
+
+====================================================================</pre></div></div></body></html>
